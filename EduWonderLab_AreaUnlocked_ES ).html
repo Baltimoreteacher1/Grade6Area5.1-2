@@ -1,0 +1,2984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Area Unlocked — ESOL Edition | EduWonderLab</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink: #1C2E42;
+  --teal: #387F84;
+  --teal-light: #EAF5F5;
+  --amber: #E8A020;
+  --amber-light: #FEF6E4;
+  --coral: #C95E44;
+  --sage: #5A7A5E;
+  --cream: #F5F0E8;
+  --paper: #FAFAF7;
+  --white: #FFFFFF;
+  --border: #D6DBDF;
+  --muted: #6B7A87;
+  --correct: #3D8A5E;
+  --wrong: #C95E44;
+  --shadow: 0 2px 12px rgba(28,46,66,0.10);
+  --shadow-lg: 0 8px 32px rgba(28,46,66,0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─── */
+.site-header {
+  background: var(--ink);
+  color: white;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+}
+.header-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 28px;
+}
+.logo-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.doc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.01em;
+}
+.doc-meta {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.05em;
+}
+.progress-bar-wrap {
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  height: 4px;
+  width: 200px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  background: linear-gradient(90deg, var(--teal), var(--amber));
+  height: 100%;
+  width: 0%;
+  transition: width 0.6s ease;
+  border-radius: 4px;
+}
+
+/* ─── NAV TABS ─── */
+.nav-tabs {
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  overflow-x: auto;
+  padding: 0 16px;
+  gap: 2px;
+  scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 11px 20px 10px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  position: relative;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-bottom: 3px solid transparent;
+  letter-spacing: 0.01em;
+}
+.tab-btn:hover { color: rgba(255,255,255,0.85); }
+.tab-btn.active {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+}
+.tab-icon { font-size: 15px; }
+.tab-num {
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+}
+.tab-btn.active .tab-num { background: var(--amber); color: var(--ink); }
+
+/* ─── MAIN CONTENT ─── */
+.main { max-width: 960px; margin: 0 auto; padding: 32px 24px 80px; }
+
+.section-panel { display: none; animation: fadeUp 0.4s ease; }
+.section-panel.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SECTION HEADERS ─── */
+.section-header {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.section-icon-lg {
+  width: 52px; height: 52px;
+  background: var(--ink);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+.section-label {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.section-subtitle { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--white);
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.card-teal { background: var(--teal-light); border-color: var(--teal); }
+.card-amber { background: var(--amber-light); border-color: var(--amber); }
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.card-tag {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.tag-teal { background: var(--teal); color: white; }
+.tag-amber { background: var(--amber); color: var(--ink); }
+.tag-coral { background: var(--coral); color: white; }
+.tag-sage { background: var(--sage); color: white; }
+.tag-ink { background: var(--ink); color: white; }
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  flex: 1;
+}
+
+/* ─── SHAPE VISUALIZER ─── */
+.shape-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.shape-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 16px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.shape-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--teal);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+.shape-card:hover::before, .shape-card.selected::before { transform: scaleX(1); }
+.shape-card:hover { border-color: var(--teal); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.shape-card.selected { border-color: var(--teal); background: var(--teal-light); }
+
+.shape-svg { margin: 0 auto 14px; display: block; }
+.shape-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.shape-hint { font-size: 12px; color: var(--muted); }
+
+/* ─── FORMULA REVEAL ─── */
+.formula-reveal {
+  background: var(--ink);
+  border-radius: 14px;
+  padding: 28px;
+  color: white;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.formula-reveal::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: rgba(56,127,132,0.15);
+}
+.formula-reveal-label {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+.formula-display {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--amber);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.formula-parts { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+.formula-part {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+}
+.formula-part strong { color: var(--amber); font-family: 'DM Mono', monospace; }
+
+/* ─── INTERACTIVE DISCOVERY ─── */
+.slider-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+.slider-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.slider-group label span {
+  font-family: 'DM Mono', monospace;
+  color: var(--teal);
+  font-size: 15px;
+}
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  background: var(--border);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  background: var(--teal);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(56,127,132,0.4);
+  transition: background 0.2s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { background: var(--ink); }
+
+.area-result-display {
+  background: var(--ink);
+  border-radius: 12px;
+  padding: 20px 24px;
+  text-align: center;
+  margin-top: 12px;
+}
+.area-result-label { font-size: 12px; color: rgba(255,255,255,0.5); font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+.area-result-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--amber);
+  line-height: 1.1;
+}
+.area-result-unit { font-size: 14px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+
+/* ─── SVG CANVAS ─── */
+.shape-canvas {
+  background: var(--paper);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  margin-bottom: 16px;
+  min-height: 200px;
+}
+
+/* ─── PRACTICE PROBLEMS ─── */
+.problem-set { display: flex; flex-direction: column; gap: 18px; }
+
+.problem-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.2s;
+}
+.problem-card.correct { border-color: var(--correct); background: #F0F8F3; }
+.problem-card.wrong { border-color: var(--wrong); background: #FDF0ED; }
+
+.problem-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--cream);
+}
+.problem-num {
+  width: 30px; height: 30px;
+  background: var(--ink);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.problem-type-tag { font-size: 11px; }
+.problem-body { padding: 20px; }
+
+.problem-stem {
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.problem-stem strong { color: var(--teal); }
+
+.problem-figure {
+  background: var(--cream);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.answer-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+.answer-input {
+  flex: 1;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-family: 'DM Mono', monospace;
+  color: var(--ink);
+  background: white;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.answer-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(56,127,132,0.1); }
+.answer-input { cursor: text; }
+.answer-input.correct { border-color: var(--correct); background: #F0F8F3; }
+.answer-input.wrong { border-color: var(--wrong); background: #FDF0ED; }
+
+.answer-unit {
+  font-size: 14px;
+  color: var(--muted);
+  padding: 12px 0 12px 4px;
+  white-space: nowrap;
+}
+.check-btn {
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.check-btn:hover { background: var(--ink); }
+.check-btn:active { transform: scale(0.97); }
+
+.feedback-box {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  display: none;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.5;
+}
+.feedback-box.show { display: flex; }
+.feedback-box.correct { background: #EAF5EE; color: #2A6B44; }
+.feedback-box.wrong { background: #FDECEA; color: #8B3A2A; }
+.feedback-icon { font-size: 18px; flex-shrink: 0; }
+
+.hint-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 10px;
+}
+.hint-btn:hover { border-color: var(--amber); color: var(--amber); }
+.hint-content {
+  background: var(--amber-light);
+  border: 1px solid var(--amber);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--ink);
+  margin-top: 10px;
+  display: none;
+  line-height: 1.55;
+}
+.hint-content.show { display: block; }
+
+/* ─── TWR FRAMES ─── */
+.twr-frame {
+  background: linear-gradient(135deg, #EDF5F0, #E8F4F5);
+  border: 1.5px solid var(--sage);
+  border-left: 4px solid var(--sage);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-top: 12px;
+}
+.twr-label {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.twr-stem {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.65;
+}
+.twr-blank {
+  display: inline-block;
+  border-bottom: 2px solid var(--sage);
+  min-width: 140px;
+  margin: 0 4px;
+  vertical-align: bottom;
+}
+.twr-input {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid var(--sage);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  padding: 4px 4px 2px;
+  outline: none;
+  margin-top: 8px;
+}
+
+/* ─── WORKED EXAMPLE ─── */
+.worked-example {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.we-header {
+  background: var(--ink);
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.we-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; }
+.we-steps { padding: 0; }
+.we-step {
+  display: flex;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.we-step:last-child { border-bottom: none; }
+.we-step-num {
+  width: 28px; height: 28px;
+  background: var(--teal);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.we-step-content { flex: 1; }
+.we-step-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.we-step-text { font-size: 14px; color: var(--ink); line-height: 1.55; }
+.we-step-math {
+  font-family: 'DM Mono', monospace;
+  background: var(--cream);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 15px;
+  color: var(--teal);
+  margin-top: 8px;
+  display: inline-block;
+}
+
+/* ─── CHALLENGE ─── */
+.challenge-banner {
+  background: linear-gradient(135deg, var(--ink) 60%, #2A4A6A);
+  border-radius: 14px;
+  padding: 28px;
+  color: white;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.challenge-banner::before {
+  content: '★';
+  position: absolute;
+  right: 24px; top: 16px;
+  font-size: 80px;
+  color: rgba(232,160,32,0.12);
+  font-weight: 900;
+}
+.challenge-level {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.12em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.challenge-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.challenge-desc { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.55; }
+
+/* ─── VOCAB TABLE ─── */
+.vocab-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.vocab-table th {
+  background: var(--ink);
+  color: white;
+  padding: 12px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: left;
+}
+.vocab-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.vocab-table tr:nth-child(even) td { background: var(--cream); }
+.vocab-table tr:last-child td { border-bottom: none; }
+.vocab-term { font-weight: 700; color: var(--teal); font-size: 15px; }
+
+/* ─── PROGRESS TRACKER ─── */
+.tracker-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.tracker-cell {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tracker-cell:hover { border-color: var(--teal); }
+.tracker-cell.done { background: var(--teal); border-color: var(--teal); }
+.tracker-cell.done .tracker-icon, .tracker-cell.done .tracker-label { color: white; }
+.tracker-icon { font-size: 20px; margin-bottom: 4px; }
+.tracker-label { font-size: 11px; font-weight: 600; color: var(--muted); }
+
+/* ─── SCORE BOARD ─── */
+.scoreboard {
+  background: var(--ink);
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: white;
+}
+.score-item { text-align: center; }
+.score-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--amber);
+}
+.score-label { font-size: 11px; color: rgba(255,255,255,0.5); font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+.score-divider { width: 1px; height: 50px; background: rgba(255,255,255,0.1); }
+
+/* ─── EXIT TICKET ─── */
+.exit-ticket {
+  background: white;
+  border: 2px dashed var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  position: relative;
+}
+.exit-ticket::before {
+  content: '✂ — — — — — — — — — — — — — — — — — — — — — — — — — — — — —';
+  position: absolute;
+  top: -12px; left: 0; right: 0;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--cream);
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0 8px;
+}
+.exit-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.exit-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); }
+.exit-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.exit-field label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 4px; }
+.exit-field input {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid var(--border);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  padding: 4px 2px;
+  outline: none;
+  color: var(--ink);
+}
+.exit-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.exit-tier {
+  background: var(--cream);
+  border-radius: 10px;
+  padding: 16px 18px;
+  border-left: 4px solid var(--border);
+}
+.exit-tier.t1 { border-left-color: var(--teal); }
+.exit-tier.t2 { border-left-color: var(--amber); }
+.exit-tier.t3 { border-left-color: var(--coral); }
+.tier-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+.t1 .tier-label { color: var(--teal); }
+.t2 .tier-label { color: var(--amber); }
+.t3 .tier-label { color: var(--coral); }
+.tier-q { font-size: 14px; color: var(--ink); line-height: 1.55; margin-bottom: 8px; }
+.tier-lines { border-bottom: 1px solid var(--border); margin: 8px 0; height: 24px; }
+
+/* ─── GOAL TRACKER ─── */
+.goal-scale {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.goal-cell {
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+.goal-cell:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.goal-cell.selected { border-color: var(--teal); background: var(--teal-light); }
+.goal-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
+.goal-anchor { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.goal-cell.selected .goal-num { color: var(--teal); }
+.goal-cell.selected .goal-anchor { color: var(--teal); }
+
+/* ─── FORMULA REFERENCE BANNER ─── */
+.formula-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.formula-tile {
+  background: var(--ink);
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.formula-tile::before {
+  content: '';
+  position: absolute;
+  bottom: -20px; right: -20px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.formula-tile-name { font-size: 11px; color: rgba(255,255,255,0.5); font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+.formula-tile-eq { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--amber); margin-bottom: 6px; }
+.formula-tile-note { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.4; }
+
+/* ─── CONNECTIONS DIAGRAM ─── */
+.connections-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* ─── BUTTONS & MISC ─── */
+.btn-primary {
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary:hover { background: var(--ink); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(56,127,132,0.3); }
+.btn-secondary {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--teal); color: var(--teal); }
+
+.info-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 14px;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+.info-dot { color: var(--teal); font-size: 18px; flex-shrink: 0; margin-top: -1px; }
+
+.standard-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  margin: 4px 4px 4px 0;
+}
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+.section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 28px 0;
+}
+
+/* ─── PDF SAVE MODAL ─── */
+.pdf-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(28,46,66,0.7);
+  z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.pdf-modal-overlay.open { opacity: 1; pointer-events: all; }
+.pdf-modal {
+  background: white;
+  border-radius: 18px;
+  padding: 36px 40px;
+  max-width: 480px; width: 90%;
+  box-shadow: 0 24px 60px rgba(28,46,66,0.3);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+.pdf-modal-overlay.open .pdf-modal { transform: translateY(0); }
+.pdf-modal-icon { font-size: 48px; margin-bottom: 12px; display: block; }
+.pdf-modal-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.pdf-modal-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+.pdf-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; text-align: left; }
+.pdf-option {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--cream); border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 12px 16px; cursor: pointer;
+  transition: all 0.15s;
+}
+.pdf-option:hover { border-color: var(--teal); background: var(--teal-light); }
+.pdf-option input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--teal); flex-shrink: 0; cursor: pointer; }
+.pdf-option-label { font-size: 14px; font-weight: 500; color: var(--ink); }
+.pdf-option-sub { font-size: 12px; color: var(--muted); }
+.pdf-modal-btns { display: flex; gap: 10px; justify-content: center; }
+.pdf-student-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.pdf-field label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 4px; }
+.pdf-field input { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 12px; font-family: 'DM Sans',sans-serif; font-size: 14px; outline: none; }
+.pdf-field input:focus { border-color: var(--teal); }
+
+/* ─── PRINT / PDF STYLES ─── */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  body { background: white !important; font-size: 13px; }
+  .site-header, .nav-tabs, .btn-primary, .btn-secondary,
+  .check-btn, .hint-btn, .hint-content, .pdf-modal-overlay,
+  .no-print, .confetti-piece { display: none !important; }
+
+  .main { padding: 0 !important; max-width: 100% !important; }
+
+  /* Show all panels for full-doc print */
+  .section-panel { display: block !important; }
+
+  /* Page breaks */
+  .pdf-section-break { page-break-before: always; }
+  .card, .problem-card, .worked-example, .exit-ticket { break-inside: avoid; page-break-inside: avoid; }
+
+  /* My Work summary block */
+  #pdf-summary { display: block !important; }
+
+  /* Tighten spacing */
+  .card { margin-bottom: 12px !important; padding: 16px !important; box-shadow: none !important; border: 1px solid #ccc !important; }
+  .problem-card { box-shadow: none !important; }
+
+  /* Show answer values in print */
+  .answer-input.correct::after { content: ' ✓'; color: green; }
+  input[type=number], input[type=text], textarea,
+  .twr-blank-input, .tier-textarea {
+    border: none !important;
+    border-bottom: 1px solid #aaa !important;
+    background: transparent !important;
+    padding: 2px 0 !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 13px !important;
+    color: #1C2E42 !important;
+  }
+  .twr-blank-input {
+    min-width: 120px !important;
+    display: inline-block !important;
+  }
+  .tier-textarea {
+    width: 100% !important;
+    display: block !important;
+    min-height: 28px !important;
+  }
+
+  /* Header bars keep color */
+  .we-header, .formula-tile, .formula-reveal, .challenge-banner,
+  .scoreboard, .vocab-table th { -webkit-print-color-adjust: exact; }
+
+  /* Hide sliders & canvas in print — show formula strip only */
+  .slider-row, .shape-canvas, #parSvg, #rhomSvg, #triSvg,
+  .area-result-display, .shape-grid { display: none !important; }
+
+  /* Formula strip stays */
+  .formula-strip { display: grid !important; }
+
+  .section-header { border-bottom: 2px solid #333 !important; margin-bottom: 16px !important; padding-bottom: 12px !important; }
+
+  /* Score summary */
+  .scoreboard { border-radius: 8px !important; padding: 12px 20px !important; }
+
+  /* Exit ticket clean */
+  .exit-ticket { border: 1.5px solid #999 !important; border-radius: 8px !important; }
+  .exit-ticket::before { display: none; }
+
+  /* Page numbers via CSS */
+  @page { margin: 0.65in 0.6in; size: letter; }
+  @page:first { margin-top: 0.4in; }
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  .shape-grid { grid-template-columns: repeat(3, 1fr); }
+  .formula-strip { grid-template-columns: 1fr; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .slider-row { grid-template-columns: 1fr; }
+  .exit-fields { grid-template-columns: 1fr; }
+  .goal-scale { grid-template-columns: repeat(2, 1fr); }
+  .tracker-grid { grid-template-columns: repeat(3, 1fr); }
+  .section-title { font-size: 22px; }
+  .formula-display { font-size: 24px; }
+  .scoreboard { flex-wrap: wrap; gap: 12px; }
+}
+
+/* ─── CONFETTI ─── */
+.confetti-piece {
+  position: fixed;
+  width: 10px; height: 10px;
+  pointer-events: none;
+  z-index: 9999;
+  animation: confettiFall linear forwards;
+  border-radius: 2px;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+
+/* ─── INLINE WRITABLE BLANKS ─── */
+.twr-blank-input {
+  display: inline-block;
+  border: none;
+  border-bottom: 2px solid var(--sage);
+  background: rgba(90,122,94,0.06);
+  min-width: 160px;
+  padding: 2px 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  vertical-align: baseline;
+  border-radius: 0;
+  transition: border-color 0.2s, background 0.2s;
+}
+.twr-blank-input:focus {
+  border-bottom-color: var(--teal);
+  background: rgba(56,127,132,0.08);
+}
+.twr-blank-input::placeholder { color: #b8c4c5; font-style: italic; }
+.twr-wide { min-width: 220px; }
+
+/* ─── EXIT TICKET WRITE LINES → TEXTAREAS ─── */
+.tier-textarea {
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1.5px solid var(--border);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  padding: 6px 4px 4px;
+  outline: none;
+  resize: none;
+  line-height: 1.5;
+  margin: 4px 0;
+  overflow: hidden;
+  min-height: 32px;
+  transition: border-color 0.2s;
+}
+.tier-textarea:focus {
+  border-bottom-color: var(--teal);
+  background: rgba(56,127,132,0.04);
+}
+.tier-textarea::placeholder { color: #c0c8cc; font-style: italic; font-size: 13px; }
+
+/* ─── AUTO-EXPAND TEXTAREAS ─── */
+
+/* ─── SCRATCH WORK AREAS ─── */
+.scratch-wrap {
+  margin-top: 12px;
+}
+.scratch-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.scratch-area {
+  width: 100%;
+  min-height: 80px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--paper);
+  resize: vertical;
+  outline: none;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+.scratch-area:focus {
+  border-color: var(--teal);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(56,127,132,0.08);
+}
+.scratch-area::placeholder { color: #b0b8c0; font-style: italic; }
+
+/* ─── ESOL SCAFFOLDS ─── */
+.wida-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 10px 0 4px;
+}
+.wida-band {
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.wida-1 { background: #EAF5F5; border-left: 3px solid #387F84; }
+.wida-2 { background: #FEF6E4; border-left: 3px solid #E8A020; }
+.wida-3 { background: #EDF5F0; border-left: 3px solid #5A7A5E; }
+.wida-level { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; font-family: 'DM Mono', monospace; }
+.wida-1 .wida-level { color: #387F84; }
+.wida-2 .wida-level { color: #E8A020; }
+.wida-3 .wida-level { color: #5A7A5E; }
+
+.cognate-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #FEF6E4;
+  border: 1px solid #E8A020;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  margin: 3px 3px 3px 0;
+}
+.cognate-es { color: #E8A020; font-weight: 700; font-family: 'DM Mono', monospace; }
+.cognate-en { color: var(--muted); }
+
+.bilingual-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.es-label {
+  font-size: 12px;
+  color: var(--teal);
+  font-style: italic;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.picture-support {
+  background: var(--cream);
+  border: 1.5px dashed var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sentence-starter {
+  background: #EAF5F5;
+  border-left: 3px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--ink);
+  margin: 8px 0;
+  font-style: italic;
+}
+.word-bank {
+  background: var(--amber-light);
+  border: 1px solid var(--amber);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 10px 0;
+}
+.word-bank-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--amber); margin-bottom: 6px; font-family: 'DM Mono', monospace; }
+.word-bank-words { display: flex; flex-wrap: wrap; gap: 6px; }
+.word-pill { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 3px 10px; font-size: 13px; color: var(--ink); }
+
+/* ─── HONORS EXTRAS ─── */
+.honors-badge {
+  background: linear-gradient(135deg, #1C2E42, #2A4A6A);
+  color: var(--amber);
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.dok-badge {
+  background: var(--coral);
+  color: white;
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.extension-box {
+  background: linear-gradient(135deg, #F5EAE7, #FEF6E4);
+  border: 1.5px solid var(--coral);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-top: 12px;
+  font-size: 13px;
+}
+.extension-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--coral); margin-bottom: 6px; font-family: 'DM Mono', monospace; }
+
+</style>
+</head>
+<body>
+
+<!-- ══════ PDF SAVE MODAL ══════ -->
+<div class="pdf-modal-overlay" id="pdfModal">
+  <div class="pdf-modal">
+    <span class="pdf-modal-icon">📄</span>
+    <div class="pdf-modal-title">Save Your Work as PDF</div>
+    <div class="pdf-modal-desc">Fill in your name and choose what to include. Then click <strong>"Open Print Dialog"</strong> — set the destination to <strong>Save as PDF</strong>.</div>
+    <div class="pdf-student-fields">
+      <div class="pdf-field"><label>Student Name</label><input type="text" id="pdf-name" placeholder="Your name"></div>
+      <div class="pdf-field"><label>Period / Class</label><input type="text" id="pdf-period" placeholder="Period"></div>
+      <div class="pdf-field"><label>Date</label><input type="text" id="pdf-date" placeholder="Today's date"></div>
+      <div class="pdf-field"><label>Teacher</label><input type="text" id="pdf-teacher" placeholder="Teacher name"></div>
+    </div>
+    <div class="pdf-options">
+      <label class="pdf-option"><input type="checkbox" id="opt-summary" checked><div><div class="pdf-option-label">📊 Score Summary</div><div class="pdf-option-sub">Your final score and problem results</div></div></label>
+      <label class="pdf-option"><input type="checkbox" id="opt-formulas" checked><div><div class="pdf-option-label">📐 Formula Reference + Worked Examples</div><div class="pdf-option-sub">All three formulas with step-by-step walkthroughs</div></div></label>
+      <label class="pdf-option"><input type="checkbox" id="opt-practice" checked><div><div class="pdf-option-label">✏️ Practice Problems + Your Answers</div><div class="pdf-option-sub">All 12 problems with your work shown</div></div></label>
+      <label class="pdf-option"><input type="checkbox" id="opt-twr" checked><div><div class="pdf-option-label">💬 TWR Written Responses</div><div class="pdf-option-sub">Your explanations and reflections</div></div></label>
+      <label class="pdf-option"><input type="checkbox" id="opt-exit" checked><div><div class="pdf-option-label">🎯 Exit Ticket</div><div class="pdf-option-sub">Completed exit ticket with your responses</div></div></label>
+    </div>
+    <div class="pdf-modal-btns">
+      <button class="btn-secondary" onclick="closePdfModal()">Cancel</button>
+      <button class="btn-primary" onclick="executePdfSave()">🖨️ Open Print Dialog</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ PDF SUMMARY (print-only, injected before print) ══════ -->
+<div id="pdf-summary" style="display:none;">
+  <div style="background:#1C2E42;color:white;padding:24px 32px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-size:11px;letter-spacing:0.12em;color:#387F84;text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:4px;">EduWonderLab · Student Work Record</div>
+        <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;">Area Unlocked: Parallelograms, Rhombuses &amp; Triangles</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px;">CCSS 6.G.A.1 · Neft.Alba</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:38px;font-weight:900;color:#E8A020;font-family:'Playfair Display',serif;line-height:1;" id="pdf-score-big">—</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.45);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;">Final Score</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.1);">
+      <div><div style="font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;font-family:'DM Mono',monospace;margin-bottom:3px;">Name</div><div style="font-size:14px;color:white;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:3px;min-height:20px;" id="pdf-name-out"></div></div>
+      <div><div style="font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;font-family:'DM Mono',monospace;margin-bottom:3px;">Period</div><div style="font-size:14px;color:white;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:3px;min-height:20px;" id="pdf-period-out"></div></div>
+      <div><div style="font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;font-family:'DM Mono',monospace;margin-bottom:3px;">Date</div><div style="font-size:14px;color:white;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:3px;min-height:20px;" id="pdf-date-out"></div></div>
+      <div><div style="font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;font-family:'DM Mono',monospace;margin-bottom:3px;">Teacher</div><div style="font-size:14px;color:white;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:3px;min-height:20px;" id="pdf-teacher-out"></div></div>
+    </div>
+  </div>
+  <div id="pdf-score-table" style="padding:20px 32px 0;background:white;">
+    <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#1C2E42;margin-bottom:10px;">Practice Problem Results</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead><tr style="background:#1C2E42;">
+        <th style="color:white;padding:7px 10px;text-align:left;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;">#</th>
+        <th style="color:white;padding:7px 10px;text-align:left;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;">Type</th>
+        <th style="color:white;padding:7px 10px;text-align:left;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;">Your Answer</th>
+        <th style="color:white;padding:7px 10px;text-align:left;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;">Correct Answer</th>
+        <th style="color:white;padding:7px 10px;text-align:center;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;">Result</th>
+      </tr></thead>
+      <tbody id="pdf-results-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo-mark">EduWonderLab<br>HyperDoc</div>
+    <div>
+      <div class="doc-title">Area Unlocked: Parallelograms, Rhombuses & Triangles</div>
+      <div class="doc-meta">Grade 6 · CCSS 6.G.A.1 · Neft.Alba · ESOL Scaffolded</div>
+    </div>
+    <div style="text-align:right">
+      <div class="doc-meta" style="margin-bottom:6px">Your Progress</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+    </div>
+  </div>
+  <nav class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab(0)" id="tab0">
+      <span class="tab-icon">🔭</span> Explore
+      <span class="tab-num">Intro</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab(1)" id="tab1">
+      <span class="tab-icon">🔬</span> Discover
+      <span class="tab-num">Formulas</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab(2)" id="tab2">
+      <span class="tab-icon">✏️</span> Practice
+      <span class="tab-num">12 Problems</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab(3)" id="tab3">
+      <span class="tab-icon">⚡</span> Challenge
+      <span class="tab-num">DOK 3</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab(4)" id="tab4">
+      <span class="tab-icon">🎯</span> Reflect
+      <span class="tab-num">Exit Ticket</span>
+    </button>
+  </nav>
+</header>
+
+<main class="main">
+
+<!-- ══════════════════════════════ TAB 0: EXPLORE ══════════════════════════════ -->
+<div class="section-panel active" id="panel0">
+  <div class="section-header">
+    <div class="section-icon-lg">🔭</div>
+    <div>
+      <div class="section-label">Estación 1 — Explorar / Station 1 — Explore</div>
+      <div class="section-title">Area Is Everywhere</div>
+      <div class="section-subtitle">Activate your thinking. Find these shapes in the real world before we find formulas.</div>
+    </div>
+  </div>
+
+  <!-- Standards -->
+  <div class="card" style="margin-bottom:18px;">
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+      <span class="card-tag tag-ink">Standards</span>
+      <span class="standard-badge">6.G.A.1</span>
+      <span style="font-size:13px; color:var(--muted);">Find the area of right triangles, other triangles, special quadrilaterals, and polygons by composing into rectangles or decomposing into triangles and other shapes.</span>
+    </div>
+  </div>
+
+  <!-- Real-world hook -->
+  <div class="card card-amber" style="margin-bottom:20px;">
+    <div class="card-header">
+      <span class="card-tag tag-amber">🌍 Real World Connection</span>
+    </div>
+    <div class="two-col" style="gap:20px;">
+      <div>
+        <p style="font-size:15px; font-weight:600; color:var(--ink); margin-bottom:10px;">Where do you see these shapes?</p>
+        <div class="info-row"><span class="info-dot">◆</span><span>A <strong>parallelogram</strong> — like a slanted tile floor, a street sign, or a solar panel array</span></div>
+        <div class="info-row"><span class="info-dot">◆</span><span>A <strong>rhombus</strong> — like a baseball diamond, a kite, or a decorative floor pattern</span></div>
+        <div class="info-row"><span class="info-dot">◆</span><span>A <strong>triangle</strong> — like a roof truss, a traffic sign, a pizza slice, or a sail</span></div>
+      </div>
+      <div style="background:var(--white); border-radius:12px; padding:16px; text-align:center;">
+        <svg viewBox="0 0 240 160" width="100%" style="max-width:240px;">
+          <!-- Parallelogram (roof shape, blue) -->
+          <polygon points="30,140 90,60 180,60 120,140" fill="#387F84" opacity="0.85" stroke="#1C2E42" stroke-width="2"/>
+          <!-- Triangle (flag) -->
+          <polygon points="150,30 200,80 150,80" fill="#E8A020" opacity="0.9" stroke="#1C2E42" stroke-width="2"/>
+          <!-- Rhombus (diamond) -->
+          <polygon points="30,40 70,15 110,40 70,65" fill="#C95E44" opacity="0.8" stroke="#1C2E42" stroke-width="2"/>
+          <!-- Labels -->
+          <text x="90" y="115" text-anchor="middle" font-size="11" fill="white" font-weight="700" font-family="DM Mono,monospace">Parallelogram</text>
+          <text x="175" y="72" text-anchor="middle" font-size="10" fill="#1C2E42" font-weight="700" font-family="DM Mono,monospace">Triangle</text>
+          <text x="70" y="45" text-anchor="middle" font-size="10" fill="white" font-weight="700" font-family="DM Mono,monospace">Rhombus</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shape selector -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-teal">🔍 What Do You Notice?</span>
+      <span class="card-title">Click each shape to learn what makes it unique</span>
+    </div>
+    <div class="shape-grid" id="shapeGrid">
+      <div class="shape-card" onclick="selectShape(0)">
+        <svg class="shape-svg" viewBox="0 0 120 80" width="100" height="68">
+          <polygon points="20,70 40,10 100,10 80,70" fill="#EAF5F5" stroke="#387F84" stroke-width="2.5"/>
+          <line x1="40" y1="10" x2="40" y2="70" stroke="#E8A020" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="37" y="46" font-size="11" fill="#E8A020" font-weight="700" font-family="DM Mono,monospace">h</text>
+          <text x="55" y="78" font-size="11" fill="#387F84" font-weight="700" font-family="DM Mono,monospace">base</text>
+        </svg>
+        <div class="shape-name">Parallelogram</div>
+        <div class="shape-hint">Opposite sides parallel</div>
+      </div>
+      <div class="shape-card" onclick="selectShape(1)">
+        <svg class="shape-svg" viewBox="0 0 120 80" width="100" height="68">
+          <polygon points="60,8 110,40 60,72 10,40" fill="#FEF6E4" stroke="#E8A020" stroke-width="2.5"/>
+          <line x1="10" y1="40" x2="110" y2="40" stroke="#387F84" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="60" y1="8" x2="60" y2="72" stroke="#C95E44" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="64" y="35" font-size="10" fill="#387F84" font-weight="700" font-family="DM Mono,monospace">d₁</text>
+          <text x="80" y="54" font-size="10" fill="#C95E44" font-weight="700" font-family="DM Mono,monospace">d₂</text>
+        </svg>
+        <div class="shape-name">Rhombus</div>
+        <div class="shape-hint">All sides equal</div>
+      </div>
+      <div class="shape-card" onclick="selectShape(2)">
+        <svg class="shape-svg" viewBox="0 0 120 80" width="100" height="68">
+          <polygon points="20,72 100,72 60,10" fill="#F5EAE7" stroke="#C95E44" stroke-width="2.5"/>
+          <line x1="60" y1="10" x2="60" y2="72" stroke="#E8A020" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="63" y="50" font-size="11" fill="#E8A020" font-weight="700" font-family="DM Mono,monospace">h</text>
+          <text x="48" y="79" font-size="11" fill="#C95E44" font-weight="700" font-family="DM Mono,monospace">base</text>
+        </svg>
+        <div class="shape-name">Triangle</div>
+        <div class="shape-hint">Three sides, three angles</div>
+      </div>
+    </div>
+
+    <div id="shapeInfo" style="display:none; background:var(--cream); border-radius:12px; padding:20px; transition: all 0.3s;">
+    </div>
+  </div>
+
+  <!-- Vocabulary -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-ink">📚 Key Vocabulary</span>
+    </div>
+    
+    <!-- ESOL Cognate Callouts -->
+    <div style="margin-bottom:16px; padding:14px 16px; background:var(--amber-light); border:1.5px solid var(--amber); border-radius:12px;">
+      <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--amber); margin-bottom:8px; font-family:DM Mono,monospace;">⭐ Cognates: Words that look similar in English & Spanish!</div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <span class="cognate-pill"><span class="cognate-es">área</span><span class="cognate-en">→ area ✓</span></span>
+        <span class="cognate-pill"><span class="cognate-es">base</span><span class="cognate-en">→ base ✓</span></span>
+        <span class="cognate-pill"><span class="cognate-es">perpendicular</span><span class="cognate-en">→ perpendicular ✓</span></span>
+        <span class="cognate-pill"><span class="cognate-es">diagonal</span><span class="cognate-en">→ diagonal ✓</span></span>
+        <span class="cognate-pill"><span class="cognate-es">fórmula</span><span class="cognate-en">→ formula ✓</span></span>
+        <span class="cognate-pill"><span class="cognate-es">triángulo</span><span class="cognate-en">→ triangle ✓</span></span>
+        <span class="cognate-pill"><span class="cognate-es">paralelogramo</span><span class="cognate-en">→ parallelogram ✓</span></span>
+      </div>
+    </div>
+<table class="vocab-table">
+      <thead>
+        <tr><th>Term / Término</th><th>Student-Friendly Meaning / Significado</th><th>Example / Ejemplo</th><th>🇪🇸 Español + Cognate?</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="vocab-term">Area</span></td>
+          <td>The number of square units needed to cover the inside of a shape</td>
+          <td>How many 1×1 tiles fit inside?</td>
+          <td><em>Área</em></td>
+        </tr>
+        <tr>
+          <td><span class="vocab-term">Base (b)</span></td>
+          <td>The bottom side of a shape — the side the height is measured from</td>
+          <td>Any side can be the base if you rotate the shape</td>
+          <td><em>Base</em></td>
+        </tr>
+        <tr>
+          <td><span class="vocab-term">Height (h)</span></td>
+          <td>The perpendicular distance from the base to the opposite side or vertex — always straight up</td>
+          <td>Height must form a 90° right angle with the base</td>
+          <td><em>Altura</em></td>
+        </tr>
+        <tr>
+          <td><span class="vocab-term">Perpendicular</span></td>
+          <td>Lines that meet at exactly 90° (a right angle)</td>
+          <td>Height is ALWAYS perpendicular to the base</td>
+          <td><em>Perpendicular</em></td>
+        </tr>
+        <tr>
+          <td><span class="vocab-term">Diagonal (d)</span></td>
+          <td>A line connecting two opposite corners of a shape</td>
+          <td>A rhombus has two diagonals that cross at 90°</td>
+          <td><em>Diagonal</em></td>
+        </tr>
+        <tr>
+          <td><span class="vocab-term">Decompose</span></td>
+          <td>To break a shape into smaller, simpler shapes to find its area</td>
+          <td>A parallelogram = rectangle when you move the triangle piece</td>
+          <td><em>Descomponer</em></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+    <button class="btn-primary" onclick="switchTab(1)">Next: Discover Formulas →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ TAB 1: DISCOVER ══════════════════════════════ -->
+<div class="section-panel" id="panel1">
+  <div class="section-header">
+    <div class="section-icon-lg">🔬</div>
+    <div>
+      <div class="section-label">Estación 2 — Descubrir / Station 2 — Discover</div>
+      <div class="section-title">Build the Formulas</div>
+      <div class="section-subtitle">Use the interactive sliders to see how changing dimensions changes area — then discover why the formulas work.</div>
+    </div>
+  </div>
+
+
+  <!-- ESOL Key Phrases Box -->
+  <div class="card card-amber" style="margin-bottom:20px;">
+    <div class="card-header"><span class="card-tag tag-amber">🗣️ Key Math Phrases / Frases Clave</span></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:13px;">
+      <div style="padding:8px 12px; background:white; border-radius:8px;"><strong>"The area is…"</strong><br><em style="color:var(--teal);">"El área es…"</em></div>
+      <div style="padding:8px 12px; background:white; border-radius:8px;"><strong>"I multiply base times height"</strong><br><em style="color:var(--teal);">"Multiplico base por altura"</em></div>
+      <div style="padding:8px 12px; background:white; border-radius:8px;"><strong>"I divide by two because…"</strong><br><em style="color:var(--teal);">"Divido entre dos porque…"</em></div>
+      <div style="padding:8px 12px; background:white; border-radius:8px;"><strong>"The formula for ___ is…"</strong><br><em style="color:var(--teal);">"La fórmula para ___ es…"</em></div>
+      <div style="padding:8px 12px; background:white; border-radius:8px;"><strong>"The height is perpendicular to…"</strong><br><em style="color:var(--teal);">"La altura es perpendicular a…"</em></div>
+      <div style="padding:8px 12px; background:white; border-radius:8px;"><strong>"This shape has ___ sides"</strong><br><em style="color:var(--teal);">"Esta figura tiene ___ lados"</em></div>
+    </div>
+  </div>
+
+  <!-- Formula Quick Reference -->
+  <div class="formula-strip">
+    <div class="formula-tile">
+      <div class="formula-tile-name">Parallelogram</div>
+      <div class="formula-tile-eq">A = b × h</div>
+      <div class="formula-tile-note">base × perpendicular height</div>
+    </div>
+    <div class="formula-tile">
+      <div class="formula-tile-name">Rhombus</div>
+      <div class="formula-tile-eq">A = (d₁ × d₂) ÷ 2</div>
+      <div class="formula-tile-note">half the product of diagonals</div>
+    </div>
+    <div class="formula-tile">
+      <div class="formula-tile-name">Triangle</div>
+      <div class="formula-tile-eq">A = (b × h) ÷ 2</div>
+      <div class="formula-tile-note">half of base × height</div>
+    </div>
+  </div>
+
+  <!-- Parallelogram Discovery -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-teal">🟦 Parallelogram</span>
+      <span class="card-title">Why A = b × h</span>
+    </div>
+    <div class="two-col">
+      <div>
+        <p style="font-size:14px; color:var(--muted); margin-bottom:14px; line-height:1.55;">Slide the sliders to change the base and height. Watch the area update. Notice: the <em>slant</em> side doesn't matter — only the height and base do!</p>
+        <div class="slider-row">
+          <div class="slider-group">
+            <label>Base (b) = <span id="pBase">8</span> units</label>
+            <input type="range" min="2" max="16" value="8" oninput="updateParallelogram()" id="pBaseSlider">
+          </div>
+          <div class="slider-group">
+            <label>Height (h) = <span id="pHeight">5</span> units</label>
+            <input type="range" min="1" max="10" value="5" oninput="updateParallelogram()" id="pHeightSlider">
+          </div>
+        </div>
+        <div class="area-result-display">
+          <div class="area-result-label">Area = b × h</div>
+          <div class="area-result-value" id="pArea">40</div>
+          <div class="area-result-unit">square units</div>
+        </div>
+      </div>
+      <div>
+        <div class="shape-canvas">
+          <svg id="parSvg" viewBox="0 0 220 150" width="220" height="150"></svg>
+        </div>
+        <div class="twr-frame">
+          <div class="twr-label">💬 Write About It (TWR) — <span style="color:var(--teal);font-style:normal;">Choose a sentence frame below</span></div>
+          <div class="twr-stem">The area of a parallelogram is found by multiplying the base and height because <input type="text" class="twr-blank-input" placeholder="___">, similar to how <input type="text" class="twr-blank-input" placeholder="___">.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <div class="worked-example">
+      <div class="we-header">
+        <span>📐</span>
+        <div class="we-title">Worked Example — Parallelogram</div>
+      </div>
+      <div class="we-steps">
+        <div class="we-step">
+          <div class="we-step-num">1</div>
+          <div class="we-step-content">
+            <div class="we-step-label">Identify the formula</div>
+            <div class="we-step-text">To find the area of a parallelogram, use <strong>A = b × h</strong>. Remember: use the <em>perpendicular</em> height, not the slant side.</div>
+          </div>
+        </div>
+        <div class="we-step">
+          <div class="we-step-num">2</div>
+          <div class="we-step-content">
+            <div class="we-step-label">Label the dimensions</div>
+            <div class="we-step-text">A parallelogram has base = 12 cm and height = 7 cm (the slant side = 9 cm — do not use this).</div>
+            <div class="we-step-math">b = 12 cm &nbsp;&nbsp; h = 7 cm</div>
+          </div>
+        </div>
+        <div class="we-step">
+          <div class="we-step-num">3</div>
+          <div class="we-step-content">
+            <div class="we-step-label">Substitute and solve</div>
+            <div class="we-step-text">Multiply base times height.</div>
+            <div class="we-step-math">A = 12 × 7 = <strong style="color:var(--teal)">84 cm²</strong></div>
+          </div>
+        </div>
+        <div class="we-step">
+          <div class="we-step-num">4</div>
+          <div class="we-step-content">
+            <div class="we-step-label">Check your units</div>
+            <div class="we-step-text">Area is always in <strong>square units</strong> — cm², m², in², ft². Don't forget the ² exponent!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rhombus Discovery -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-amber">💎 Rhombus</span>
+      <span class="card-title">Why A = (d₁ × d₂) ÷ 2</span>
+    </div>
+    <div class="two-col">
+      <div>
+        <p style="font-size:14px; color:var(--muted); margin-bottom:14px; line-height:1.55;">The two diagonals of a rhombus divide it into 4 right triangles. Together they form a rectangle — and the rhombus is exactly half of it!</p>
+        <div class="slider-row">
+          <div class="slider-group">
+            <label>Diagonal 1 (d₁) = <span id="rd1">10</span> units</label>
+            <input type="range" min="2" max="18" value="10" oninput="updateRhombus()" id="rd1Slider">
+          </div>
+          <div class="slider-group">
+            <label>Diagonal 2 (d₂) = <span id="rd2">6</span> units</label>
+            <input type="range" min="2" max="12" value="6" oninput="updateRhombus()" id="rd2Slider">
+          </div>
+        </div>
+        <div class="area-result-display">
+          <div class="area-result-label">Area = (d₁ × d₂) ÷ 2</div>
+          <div class="area-result-value" id="rArea">30</div>
+          <div class="area-result-unit">square units</div>
+        </div>
+      </div>
+      <div>
+        <div class="shape-canvas">
+          <svg id="rhomSvg" viewBox="0 0 220 150" width="220" height="150"></svg>
+        </div>
+        <div class="twr-frame">
+          <div class="twr-label">💬 Write About It (TWR)</div>
+          <div class="twr-stem">The rhombus formula uses diagonals instead of base and height because <input type="text" class="twr-blank-input" placeholder="___">. This gives the same result as <input type="text" class="twr-blank-input" placeholder="___">.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <div class="worked-example">
+      <div class="we-header">
+        <span>📐</span>
+        <div class="we-title">Worked Example — Rhombus</div>
+      </div>
+      <div class="we-steps">
+        <div class="we-step">
+          <div class="we-step-num">1</div>
+          <div class="we-step-content">
+            <div class="we-step-label">Identify the formula</div>
+            <div class="we-step-text">A rhombus area uses its two diagonals: <strong>A = (d₁ × d₂) ÷ 2</strong>. The diagonals are the lines connecting opposite vertices.</div>
+          </div>
+        </div>
+        <div class="we-step">
+          <div class="we-step-num">2</div>
+          <div class="we-step-content">
+            <div class="we-step-label">Label the diagonals</div>
+            <div class="we-step-text">A baseball diamond (rhombus) has diagonals of 127 ft and 127 ft.</div>
+            <div class="we-step-math">d₁ = 127 ft &nbsp;&nbsp; d₂ = 127 ft</div>
+          </div>
+        </div>
+        <div class="we-step">
+          <div class="we-step-num">3</div>
+          <div class="we-step-content">
+            <div class="we-step-label">Multiply and halve</div>
+            <div class="we-step-math">A = (127 × 127) ÷ 2 = 16,129 ÷ 2 = <strong style="color:var(--teal)">8,064.5 ft²</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Triangle Discovery -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-coral">🔺 Triangle</span>
+      <span class="card-title">Why A = (b × h) ÷ 2</span>
+    </div>
+    <div class="two-col">
+      <div>
+        <p style="font-size:14px; color:var(--muted); margin-bottom:14px; line-height:1.55;">Every triangle is exactly half of a parallelogram! If you copy the triangle and flip it, the two pieces form a parallelogram — so triangle area is always <em>half</em> of b × h.</p>
+        <div class="slider-row">
+          <div class="slider-group">
+            <label>Base (b) = <span id="tBase">10</span> units</label>
+            <input type="range" min="2" max="20" value="10" oninput="updateTriangle()" id="tBaseSlider">
+          </div>
+          <div class="slider-group">
+            <label>Height (h) = <span id="tHeight">6</span> units</label>
+            <input type="range" min="1" max="12" value="6" oninput="updateTriangle()" id="tHeightSlider">
+          </div>
+        </div>
+        <div class="area-result-display">
+          <div class="area-result-label">Area = (b × h) ÷ 2</div>
+          <div class="area-result-value" id="tArea">30</div>
+          <div class="area-result-unit">square units</div>
+        </div>
+      </div>
+      <div>
+        <div class="shape-canvas">
+          <svg id="triSvg" viewBox="0 0 220 150" width="220" height="150"></svg>
+        </div>
+        <div class="twr-frame">
+          <div class="twr-label">💬 Write About It (TWR)</div>
+          <div class="twr-stem">A triangle's area formula includes "÷ 2" because <input type="text" class="twr-blank-input" placeholder="___">. This is connected to the parallelogram formula because <input type="text" class="twr-blank-input" placeholder="___">.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <div class="worked-example">
+      <div class="we-header">
+        <span>📐</span>
+        <div class="we-title">Worked Example — Triangle (Tricky! Obtuse)</div>
+      </div>
+      <div class="we-steps">
+        <div class="we-step">
+          <div class="we-step-num">1</div>
+          <div class="we-step-content">
+            <div class="we-step-label">Watch out: height is outside the triangle!</div>
+            <div class="we-step-text">For an obtuse triangle, the height is drawn <em>outside</em> the triangle. The formula still works the same way: <strong>A = (b × h) ÷ 2</strong>.</div>
+          </div>
+        </div>
+        <div class="we-step">
+          <div class="we-step-num">2</div>
+          <div class="we-step-content">
+            <div class="we-step-label">Identify base and height</div>
+            <div class="we-step-text">Base = 14 m (the bottom side). Height = 9 m (the perpendicular line — even though it falls outside the triangle).</div>
+            <div class="we-step-math">b = 14 m &nbsp;&nbsp; h = 9 m</div>
+          </div>
+        </div>
+        <div class="we-step">
+          <div class="we-step-num">3</div>
+          <div class="we-step-content">
+            <div class="we-step-label">Substitute and solve</div>
+            <div class="we-step-math">A = (14 × 9) ÷ 2 = 126 ÷ 2 = <strong style="color:var(--teal)">63 m²</strong></div>
+          </div>
+        </div>
+        <div class="we-step">
+          <div class="we-step-num">4</div>
+          <div class="we-step-content">
+            <div class="we-step-label">⚠️ Common error to avoid</div>
+            <div class="we-step-text">Students often use the slant side as the height. Remember: height must be <em>perpendicular</em> to the base — it always forms a right angle (90°).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connections -->
+  <div class="connections-card">
+    <div class="card-header" style="justify-content:center;">
+      <span class="card-tag tag-sage">🔗 The Big Connection</span>
+    </div>
+    <svg viewBox="0 0 600 160" width="100%" style="max-width:600px; display:block; margin:0 auto;">
+      <!-- Rectangle box -->
+      <rect x="220" y="20" width="160" height="50" rx="8" fill="#1C2E42" stroke="none"/>
+      <text x="300" y="40" text-anchor="middle" font-size="12" fill="white" font-weight="700" font-family="DM Mono,monospace">RECTANGLE</text>
+      <text x="300" y="58" text-anchor="middle" font-size="11" fill="#387F84" font-family="DM Mono,monospace">A = l × w</text>
+
+      <!-- Arrows down -->
+      <line x1="260" y1="70" x2="130" y2="110" stroke="#D6DBDF" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <line x1="300" y1="70" x2="300" y2="110" stroke="#D6DBDF" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <line x1="340" y1="70" x2="470" y2="110" stroke="#D6DBDF" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+      <!-- Labels on arrows -->
+      <text x="175" y="100" text-anchor="middle" font-size="10" fill="#6B7A87" font-family="DM Sans,sans-serif">= same as</text>
+      <text x="315" y="100" text-anchor="middle" font-size="10" fill="#6B7A87" font-family="DM Sans,sans-serif">= half of</text>
+      <text x="420" y="100" text-anchor="middle" font-size="10" fill="#6B7A87" font-family="DM Sans,sans-serif">= half of</text>
+
+      <!-- Three shape boxes -->
+      <rect x="40" y="110" width="170" height="44" rx="8" fill="#387F84" stroke="none"/>
+      <text x="125" y="128" text-anchor="middle" font-size="11" fill="white" font-weight="700" font-family="DM Mono,monospace">PARALLELOGRAM</text>
+      <text x="125" y="146" text-anchor="middle" font-size="11" fill="#FEF6E4" font-family="DM Mono,monospace">A = b × h</text>
+
+      <rect x="215" y="110" width="170" height="44" rx="8" fill="#C95E44" stroke="none"/>
+      <text x="300" y="128" text-anchor="middle" font-size="11" fill="white" font-weight="700" font-family="DM Mono,monospace">TRIANGLE</text>
+      <text x="300" y="146" text-anchor="middle" font-size="11" fill="#FEF6E4" font-family="DM Mono,monospace">A = (b × h) ÷ 2</text>
+
+      <rect x="390" y="110" width="170" height="44" rx="8" fill="#E8A020" stroke="none"/>
+      <text x="475" y="128" text-anchor="middle" font-size="11" fill="#1C2E42" font-weight="700" font-family="DM Mono,monospace">RHOMBUS</text>
+      <text x="475" y="146" text-anchor="middle" font-size="11" fill="#1C2E42" font-family="DM Mono,monospace">A = (d₁ × d₂) ÷ 2</text>
+
+      <defs>
+        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#D6DBDF"/>
+        </marker>
+      </defs>
+    </svg>
+    <p style="font-size:13px; color:var(--muted); margin-top:12px;">All three formulas connect back to the area of a rectangle. A parallelogram <em>is</em> a rearranged rectangle. A triangle is half of a parallelogram. A rhombus uses diagonals to find the same half-rectangle relationship.</p>
+  </div>
+
+  <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+    <button class="btn-primary" onclick="switchTab(2)">Next: Practice Problems →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ TAB 2: PRACTICE ══════════════════════════════ -->
+<div class="section-panel" id="panel2">
+  <div class="section-header">
+    <div class="section-icon-lg">✏️</div>
+    <div>
+      <div class="section-label">Estación 3 — Practicar / Station 3 — Practice</div>
+      <div class="section-title">Put It to Work</div>
+      <div class="section-subtitle">12 problems across three tiers. Type your answer and click Check — you'll get immediate feedback.</div>
+    </div>
+  </div>
+
+  <div class="scoreboard">
+    <div class="score-item">
+      <div class="score-value" id="scoreCorrect">0</div>
+      <div class="score-label">Correct</div>
+    </div>
+    <div class="score-divider"></div>
+    <div class="score-item">
+      <div class="score-value" id="scoreTotal">12</div>
+      <div class="score-label">Total</div>
+    </div>
+    <div class="score-divider"></div>
+    <div class="score-item">
+      <div class="score-value" id="scorePct">0%</div>
+      <div class="score-label">Score</div>
+    </div>
+  </div>
+
+  
+  <!-- ESOL WIDA Language Scaffolds -->
+  <div class="card card-teal" style="margin-bottom:18px;">
+    <div class="card-header">
+      <span class="card-tag tag-teal">🌐 Language Support / Apoyo de Lenguaje</span>
+    </div>
+    <div class="wida-strip">
+      <div class="wida-band wida-1">
+        <div class="wida-level">L1–2 Entering/Emerging</div>
+        Point to the shape. Circle the formula. Write the numbers. Use a calculator.
+        <br><em style="color:var(--teal);font-size:11px;">Señala la figura. Encierra la fórmula.</em>
+      </div>
+      <div class="wida-band wida-2">
+        <div class="wida-level">L3–4 Developing/Expanding</div>
+        Use the sentence frames below each problem. Write each step. Say your answer: "The area is ___ square ___."
+        <br><em style="color:var(--amber);font-size:11px;">Usa los marcos de oraciones. Escribe cada paso.</em>
+      </div>
+      <div class="wida-band wida-3">
+        <div class="wida-level">L5 Bridging</div>
+        Explain your reasoning in writing. Compare two shapes. Use math vocabulary in your explanation.
+        <br><em style="color:var(--sage);font-size:11px;">Explica tu razonamiento por escrito.</em>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <div class="word-bank">
+        <div class="word-bank-label">🗝️ Math Word Bank / Banco de Palabras</div>
+        <div class="word-bank-words">
+          <span class="word-pill">area / área</span>
+          <span class="word-pill">base / base</span>
+          <span class="word-pill">height / altura</span>
+          <span class="word-pill">multiply / multiplicar</span>
+          <span class="word-pill">divide / dividir</span>
+          <span class="word-pill">formula / fórmula</span>
+          <span class="word-pill">perpendicular</span>
+          <span class="word-pill">diagonal / diagonal</span>
+          <span class="word-pill">square units / unidades cuadradas</span>
+          <span class="word-pill">parallelogram / paralelogramo</span>
+          <span class="word-pill">rhombus / rombo</span>
+          <span class="word-pill">triangle / triángulo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="problem-set" id="problemSet">
+
+    <!-- TIER 1: IDENTIFY + SOLVE -->
+    <div class="card" style="padding:14px 20px; margin-bottom:6px;">
+      <span class="card-tag tag-teal" style="margin-right:8px;">Tier 1</span>
+      <span style="font-size:13px; color:var(--muted);">Single-step — identify the shape and apply the formula</span>
+    </div>
+
+    <!-- Problem 1 -->
+    <div class="problem-card" id="p1">
+      <div class="problem-header">
+        <div class="problem-num">1</div>
+        <span class="card-tag tag-teal problem-type-tag">Parallelogram</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-figure">
+          <svg viewBox="0 0 260 120" width="260" height="120">
+            <polygon points="30,100 60,20 230,20 200,100" fill="#EAF5F5" stroke="#387F84" stroke-width="2"/>
+            <line x1="60" y1="20" x2="60" y2="100" stroke="#E8A020" stroke-width="1.5" stroke-dasharray="5,4"/>
+            <text x="63" y="65" font-size="13" fill="#E8A020" font-weight="700" font-family="DM Mono,monospace">h = 9 cm</text>
+            <text x="105" y="115" font-size="13" fill="#387F84" font-weight="700" font-family="DM Mono,monospace">b = 14 cm</text>
+            <rect x="60" y="91" width="9" height="9" fill="none" stroke="#E8A020" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="picture-support">📐 <strong>Parallelogram / Paralelogramo</strong> — a 4-sided shape with 2 pairs of parallel sides (lados paralelos)</div>
+        <div class="problem-stem">Find the area of the parallelogram. <br><em class="es-label">Encuentra el área del paralelogramo.</em><br>Base = <strong>14 cm</strong>, Height / Altura = <strong>9 cm</strong>.</div>
+        <div class="sentence-starter">🗣️ "The formula for a parallelogram is A = ___ × ___. So the area is ___ cm²."</div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a1" placeholder="Type your answer" onkeydown="if(event.key==='Enter') checkAnswer(1)">
+          <span class="answer-unit">cm²</span>
+          <button class="check-btn" onclick="checkAnswer(1)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(1)">💡 Show Hint</button>
+        <div class="hint-content" id="hint1">
+          <strong>Hint:</strong> The formula for a parallelogram is A = b × h. Multiply the base (14) by the height (9). Don't use the slant side!
+        </div>
+        <div class="feedback-box" id="fb1"></div>
+      </div>
+    </div>
+
+    <!-- Problem 2 -->
+    <div class="problem-card" id="p2">
+      <div class="problem-header">
+        <div class="problem-num">2</div>
+        <span class="card-tag tag-amber problem-type-tag">Rhombus</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-figure">
+          <svg viewBox="0 0 260 120" width="260" height="120">
+            <polygon points="130,10 220,60 130,110 40,60" fill="#FEF6E4" stroke="#E8A020" stroke-width="2"/>
+            <line x1="40" y1="60" x2="220" y2="60" stroke="#387F84" stroke-width="1.5" stroke-dasharray="5,4"/>
+            <line x1="130" y1="10" x2="130" y2="110" stroke="#C95E44" stroke-width="1.5" stroke-dasharray="5,4"/>
+            <text x="128" y="55" text-anchor="middle" font-size="12" fill="#387F84" font-weight="700" font-family="DM Mono,monospace">d₁ = 16 m</text>
+            <text x="175" y="82" font-size="12" fill="#C95E44" font-weight="700" font-family="DM Mono,monospace">d₂ = 10 m</text>
+          </svg>
+        </div>
+        <div class="picture-support">💎 <strong>Rhombus / Rombo</strong> — all 4 sides equal length (todos los lados iguales). Uses diagonals (diagonales).</div>
+        <div class="problem-stem">A rhombus kite has diagonals of <strong>16 m</strong> and <strong>10 m</strong>. What is the area?<br><em class="es-label">Un cometa tiene diagonales de 16 m y 10 m. ¿Cuál es el área?</em></div>
+        <div class="sentence-starter">🗣️ "The formula for a rhombus is A = (d₁ × d₂) ÷ 2. I multiply ___ × ___ = ___, then divide by 2."</div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a2" placeholder="Type your answer" onkeydown="if(event.key==='Enter') checkAnswer(2)">
+          <span class="answer-unit">m²</span>
+          <button class="check-btn" onclick="checkAnswer(2)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(2)">💡 Show Hint</button>
+        <div class="hint-content" id="hint2">
+          <strong>Hint:</strong> Rhombus formula: A = (d₁ × d₂) ÷ 2. Multiply both diagonals (16 × 10 = 160), then divide by 2.
+        </div>
+        <div class="feedback-box" id="fb2"></div>
+      </div>
+    </div>
+
+    <!-- Problem 3 -->
+    <div class="problem-card" id="p3">
+      <div class="problem-header">
+        <div class="problem-num">3</div>
+        <span class="card-tag tag-coral problem-type-tag">Triangle</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-figure">
+          <svg viewBox="0 0 260 120" width="260" height="120">
+            <polygon points="40,105 200,105 120,15" fill="#F5EAE7" stroke="#C95E44" stroke-width="2"/>
+            <line x1="120" y1="15" x2="120" y2="105" stroke="#E8A020" stroke-width="1.5" stroke-dasharray="5,4"/>
+            <rect x="120" y="96" width="9" height="9" fill="none" stroke="#E8A020" stroke-width="1.5"/>
+            <text x="122" y="68" font-size="13" fill="#E8A020" font-weight="700" font-family="DM Mono,monospace">h = 11 ft</text>
+            <text x="100" y="118" font-size="13" fill="#C95E44" font-weight="700" font-family="DM Mono,monospace">b = 18 ft</text>
+          </svg>
+        </div>
+        <div class="picture-support">🔺 <strong>Triangle / Triángulo</strong> — 3 sides. Area = HALF of base × height (la MITAD de base × altura)</div>
+        <div class="problem-stem">A triangular garden (jardín triangular) has base = <strong>18 ft</strong> and height (altura) = <strong>11 ft</strong>. Find the area.<br><em class="es-label">Encuentra el área del jardín triangular.</em></div>
+        <div class="sentence-starter">🗣️ "A triangle is half of a parallelogram, so I multiply ___ × ___ = ___, then divide by ___."</div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a3" placeholder="Type your answer" onkeydown="if(event.key==='Enter') checkAnswer(3)">
+          <span class="answer-unit">ft²</span>
+          <button class="check-btn" onclick="checkAnswer(3)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(3)">💡 Show Hint</button>
+        <div class="hint-content" id="hint3">
+          <strong>Hint:</strong> Triangle formula: A = (b × h) ÷ 2. Multiply base × height = 18 × 11 = 198, then divide by 2.
+        </div>
+        <div class="feedback-box" id="fb3"></div>
+      </div>
+    </div>
+
+    <!-- Problem 4 -->
+    <div class="problem-card" id="p4">
+      <div class="problem-header">
+        <div class="problem-num">4</div>
+        <span class="card-tag tag-teal problem-type-tag">Parallelogram</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-figure">
+          <svg viewBox="0 0 280 110" width="280" height="110">
+            <polygon points="20,95 55,15 255,15 220,95" fill="#EAF5F5" stroke="#387F84" stroke-width="2"/>
+            <line x1="55" y1="15" x2="55" y2="95" stroke="#E8A020" stroke-width="1.5" stroke-dasharray="5,4"/>
+            <rect x="55" y="86" width="9" height="9" fill="none" stroke="#E8A020" stroke-width="1.5"/>
+            <text x="60" y="60" font-size="12" fill="#E8A020" font-weight="700" font-family="DM Mono,monospace">h = 7.5 cm</text>
+            <text x="120" y="107" font-size="12" fill="#387F84" font-weight="700" font-family="DM Mono,monospace">b = 13 cm</text>
+            <text x="22" y="60" font-size="11" fill="#6B7A87" font-family="DM Mono,monospace">s = 10 cm</text>
+          </svg>
+        </div>
+        <div class="picture-support">⚠️ <strong>Trap! / ¡Trampa!</strong> — The slant side is NOT the height. Look for the right angle (ángulo recto = 90°) to find the real height.</div>
+        <div class="problem-stem">A parallelogram tile has base <strong>13 cm</strong>, slant side (lado inclinado) <strong>10 cm</strong>, and height <strong>7.5 cm</strong>.<br><em class="es-label">¿Cuál es el área? No uses el lado inclinado.</em></div>
+        <div class="sentence-starter">🗣️ "I use A = b × h. The base is ___, the HEIGHT (not the slant side) is ___. Area = ___."</div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a4" placeholder="Type your answer" step="0.1" onkeydown="if(event.key==='Enter') checkAnswer(4)">
+          <span class="answer-unit">cm²</span>
+          <button class="check-btn" onclick="checkAnswer(4)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(4)">💡 Show Hint</button>
+        <div class="hint-content" id="hint4">
+          <strong>Hint:</strong> Don't use the slant side (10 cm)! Only use the base and the perpendicular height. A = b × h = 13 × 7.5
+        </div>
+        <div class="feedback-box" id="fb4"></div>
+      </div>
+    </div>
+
+    <!-- TIER 2 -->
+    <div class="card" style="padding:14px 20px; margin:10px 0 6px;">
+      <span class="card-tag tag-amber" style="margin-right:8px;">Tier 2</span>
+      <span style="font-size:13px; color:var(--muted);">Multi-step — apply and reason</span>
+    </div>
+
+    <!-- Problem 5 -->
+    <div class="problem-card" id="p5">
+      <div class="problem-header">
+        <div class="problem-num">5</div>
+        <span class="card-tag tag-amber problem-type-tag">Missing Dimension</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-stem">A triangle has an area of <strong>48 in²</strong> and a base of <strong>12 in</strong>. What is the height?</div>
+        <div class="twr-frame" style="margin-bottom:14px;">
+          <div class="twr-label">Strategy Frame</div>
+          <div class="twr-stem">I know the formula A = (b × h) ÷ 2, so I can work backwards. If A = 48 and b = 12, then h = <input type="text" class="twr-blank-input" placeholder="___"> because <input type="text" class="twr-blank-input" placeholder="___">.</div>
+        </div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a5" placeholder="h = ?" onkeydown="if(event.key==='Enter') checkAnswer(5)">
+          <span class="answer-unit">in</span>
+          <button class="check-btn" onclick="checkAnswer(5)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(5)">💡 Show Hint</button>
+        <div class="hint-content" id="hint5">
+          <strong>Hint:</strong> Start with A = (b × h) ÷ 2. Plug in: 48 = (12 × h) ÷ 2. Multiply both sides by 2: 96 = 12 × h. Then divide: h = 96 ÷ 12.
+        </div>
+        <div class="feedback-box" id="fb5"></div>
+      </div>
+    </div>
+
+    <!-- Problem 6 -->
+    <div class="problem-card" id="p6">
+      <div class="problem-header">
+        <div class="problem-num">6</div>
+        <span class="card-tag tag-amber problem-type-tag">Real World</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-stem">A diamond-shaped window (rhombus) has a horizontal diagonal of <strong>2.4 ft</strong> and a vertical diagonal of <strong>3.6 ft</strong>. A replacement window costs <strong>$18 per ft²</strong>. What is the total cost?</div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a6" placeholder="Total cost $" step="0.01" onkeydown="if(event.key==='Enter') checkAnswer(6)">
+          <span class="answer-unit">dollars</span>
+          <button class="check-btn" onclick="checkAnswer(6)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(6)">💡 Show Hint</button>
+        <div class="hint-content" id="hint6">
+          <strong>Hint: Step 1:</strong> Find the area of the rhombus: A = (2.4 × 3.6) ÷ 2. <strong>Step 2:</strong> Multiply area × $18.
+        </div>
+        <div class="feedback-box" id="fb6"></div>
+      </div>
+    </div>
+
+    <!-- Problem 7 -->
+    <div class="problem-card" id="p7">
+      <div class="problem-header">
+        <div class="problem-num">7</div>
+        <span class="card-tag tag-amber problem-type-tag">Missing Dimension</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-stem">A parallelogram has an area of <strong>91 m²</strong> and a height of <strong>7 m</strong>. What is the base?</div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a7" placeholder="b = ?" onkeydown="if(event.key==='Enter') checkAnswer(7)">
+          <span class="answer-unit">m</span>
+          <button class="check-btn" onclick="checkAnswer(7)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(7)">💡 Show Hint</button>
+        <div class="hint-content" id="hint7">
+          <strong>Hint:</strong> A = b × h → 91 = b × 7 → b = 91 ÷ 7.
+        </div>
+        <div class="feedback-box" id="fb7"></div>
+      </div>
+    </div>
+
+    <!-- Problem 8 -->
+    <div class="problem-card" id="p8">
+      <div class="problem-header">
+        <div class="problem-num">8</div>
+        <span class="card-tag tag-amber problem-type-tag">Composite</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-stem">A rooftop is shaped like a triangle with base <strong>24 m</strong> and height <strong>6.5 m</strong>. Solar panels cover <strong>⅔ of the roof</strong>. What area do the solar panels cover?</div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a8" placeholder="Panel area" step="0.1" onkeydown="if(event.key==='Enter') checkAnswer(8)">
+          <span class="answer-unit">m²</span>
+          <button class="check-btn" onclick="checkAnswer(8)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(8)">💡 Show Hint</button>
+        <div class="hint-content" id="hint8">
+          <strong>Hint: Step 1:</strong> Triangle area = (24 × 6.5) ÷ 2 = 78 m². <strong>Step 2:</strong> ⅔ of 78 = 78 ÷ 3 × 2 = 52 m².
+        </div>
+        <div class="feedback-box" id="fb8"></div>
+      </div>
+    </div>
+
+    <!-- TIER 3 -->
+    <div class="card" style="padding:14px 20px; margin:10px 0 6px;">
+      <span class="card-tag tag-coral" style="margin-right:8px;">Tier 3</span>
+      <span style="font-size:13px; color:var(--muted);">Transfer + justification — DOK 3</span>
+    </div>
+
+    <!-- Problem 9 -->
+    <div class="problem-card" id="p9">
+      <div class="problem-header">
+        <div class="problem-num">9</div>
+        <span class="card-tag tag-coral problem-type-tag">Compare & Contrast</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-stem">A parallelogram has base <strong>10 cm</strong> and height <strong>8 cm</strong>. A triangle has the <strong>same base and height</strong>. How many triangles are needed to cover the same area as the parallelogram?</div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a9" placeholder="Number of triangles" onkeydown="if(event.key==='Enter') checkAnswer(9)">
+          <span class="answer-unit">triangles</span>
+          <button class="check-btn" onclick="checkAnswer(9)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(9)">💡 Show Hint</button>
+        <div class="hint-content" id="hint9">
+          <strong>Hint:</strong> Find the area of each. Parallelogram: A = 10 × 8 = 80 cm². Triangle: A = (10 × 8) ÷ 2 = 40 cm². How many 40s fit in 80?
+        </div>
+        <div class="feedback-box" id="fb9"></div>
+        <div class="twr-frame" style="margin-top:12px;">
+          <div class="twr-label">💬 Explain Your Thinking (TWR)</div>
+          <div class="twr-stem">The triangle formula includes ÷ 2 because it is exactly _____ the area of the parallelogram with the same dimensions. This means _____ triangles always equal one parallelogram.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem 10 -->
+    <div class="problem-card" id="p10">
+      <div class="problem-header">
+        <div class="problem-num">10</div>
+        <span class="card-tag tag-coral problem-type-tag">Error Analysis</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-stem">Marcus says: "A triangle with base 8 and height 5 has area 40 square units. I just did 8 × 5." <strong>What is Marcus's error? What is the correct area?</strong></div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a10" placeholder="Correct area" onkeydown="if(event.key==='Enter') checkAnswer(10)">
+          <span class="answer-unit">sq units</span>
+          <button class="check-btn" onclick="checkAnswer(10)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(10)">💡 Show Hint</button>
+        <div class="hint-content" id="hint10">
+          <strong>Hint:</strong> Marcus used the parallelogram formula, not the triangle formula. Triangle area = (b × h) ÷ 2, not just b × h.
+        </div>
+        <div class="feedback-box" id="fb10"></div>
+        <div class="twr-frame" style="margin-top:12px;">
+          <div class="twr-label">💬 Error Explanation (TWR)</div>
+          <div class="twr-stem">Marcus's mistake was that he _______________. The correct formula is _______________. The right answer is _______ because _____________.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem 11 -->
+    <div class="problem-card" id="p11">
+      <div class="problem-header">
+        <div class="problem-num">11</div>
+        <span class="card-tag tag-coral problem-type-tag">Transfer</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-stem">A rhombus and a rectangle have the same area. The rectangle is <strong>9 cm × 8 cm</strong>. The rhombus has one diagonal of <strong>12 cm</strong>. What is the length of the other diagonal?</div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a11" placeholder="d₂ = ?" onkeydown="if(event.key==='Enter') checkAnswer(11)">
+          <span class="answer-unit">cm</span>
+          <button class="check-btn" onclick="checkAnswer(11)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(11)">💡 Show Hint</button>
+        <div class="hint-content" id="hint11">
+          <strong>Hint: Step 1:</strong> Rectangle area = 9 × 8 = 72 cm². <strong>Step 2:</strong> Set rhombus formula equal: (12 × d₂) ÷ 2 = 72. <strong>Step 3:</strong> Solve for d₂.
+        </div>
+        <div class="feedback-box" id="fb11"></div>
+      </div>
+    </div>
+
+    <!-- Problem 12 -->
+    <div class="problem-card" id="p12">
+      <div class="problem-header">
+        <div class="problem-num">12</div>
+        <span class="card-tag tag-coral problem-type-tag">Open-Ended</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-stem">You need to cover a triangular floor with tiles. The triangle has base <strong>15 ft</strong> and height <strong>8 ft</strong>. Tiles come in 1 ft² squares. If tiles cost <strong>$3.50 each</strong>, what is the minimum cost to tile the floor? (You can't cut tiles.)</div>
+        <div class="answer-row">
+          <input type="number" class="answer-input" id="a12" placeholder="Minimum cost $" step="0.01" onkeydown="if(event.key==='Enter') checkAnswer(12)">
+          <span class="answer-unit">dollars</span>
+          <button class="check-btn" onclick="checkAnswer(12)">Check ✓</button>
+        </div>
+        <div class="scratch-wrap">
+          <div class="scratch-label">✏️ Show Your Work <span style="font-weight:400;font-size:10px;color:var(--muted);">(type here)</span></div>
+          <textarea class="scratch-area" placeholder="Show your work / Muestra tu trabajo — write each step / escribe cada paso..."></textarea>
+        </div>
+        <button class="hint-btn" onclick="toggleHint(12)">💡 Show Hint</button>
+        <div class="hint-content" id="hint12">
+          <strong>Hint: Step 1:</strong> Triangle area = (15 × 8) ÷ 2 = 60 ft². <strong>Step 2:</strong> Since you can't cut tiles, you need 60 tiles. <strong>Step 3:</strong> Cost = 60 × $3.50.
+        </div>
+        <div class="feedback-box" id="fb12"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+    <button class="btn-primary" onclick="switchTab(3)">Next: Challenge →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ TAB 3: CHALLENGE ══════════════════════════════ -->
+<div class="section-panel" id="panel3">
+  <div class="section-header">
+    <div class="section-icon-lg">⚡</div>
+    <div>
+      <div class="section-label">Estación 4 — Desafío / Station 4 — Challenge</div>
+      <div class="section-title">Think Deeper</div>
+      <div class="section-subtitle">DOK 3 tasks — decompose, design, and justify. Show your thinking.</div>
+    </div>
+  </div>
+
+  <div class="challenge-banner">
+    <div class="challenge-level">⭐ DOK Level 3</div>
+    <div class="challenge-title">The Shape Designer</div>
+    <div class="challenge-desc">You have 60 square feet of material. Design two different shapes — a parallelogram AND a triangle — that each use exactly 60 ft² of material. Show all dimensions and justify that both shapes work.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-ink">📐 Design Space</span>
+      <span class="card-title">Parallelogram with A = 60 ft²</span>
+    </div>
+    <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">There are infinite possible answers. Choose base and height that multiply to 60.</p>
+    <div class="three-col">
+      <div>
+        <label style="font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:6px;">My base =</label>
+        <input type="number" id="dBase" style="width:100%; padding:10px 14px; border:2px solid var(--border); border-radius:10px; font-size:16px; font-family:DM Mono,monospace; color:var(--teal); outline:none;" placeholder="b = ?" oninput="checkDesign()">
+      </div>
+      <div>
+        <label style="font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:6px;">My height =</label>
+        <input type="number" id="dHeight" style="width:100%; padding:10px 14px; border:2px solid var(--border); border-radius:10px; font-size:16px; font-family:DM Mono,monospace; color:var(--teal); outline:none;" placeholder="h = ?" oninput="checkDesign()">
+      </div>
+      <div>
+        <label style="font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:6px;">Computed area =</label>
+        <div id="dResult" style="padding:10px 14px; background:var(--cream); border:2px solid var(--border); border-radius:10px; font-family:DM Mono,monospace; font-size:16px; color:var(--muted);">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-coral">🔺 Design Space</span>
+      <span class="card-title">Triangle with A = 60 ft²</span>
+    </div>
+    <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">For a triangle, (b × h) ÷ 2 = 60, so b × h = 120.</p>
+    <div class="three-col">
+      <div>
+        <label style="font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:6px;">My base =</label>
+        <input type="number" id="tBase2" style="width:100%; padding:10px 14px; border:2px solid var(--border); border-radius:10px; font-size:16px; font-family:DM Mono,monospace; color:var(--coral); outline:none;" placeholder="b = ?" oninput="checkTriDesign()">
+      </div>
+      <div>
+        <label style="font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:6px;">My height =</label>
+        <input type="number" id="tHeight2" style="width:100%; padding:10px 14px; border:2px solid var(--border); border-radius:10px; font-size:16px; font-family:DM Mono,monospace; color:var(--coral); outline:none;" placeholder="h = ?" oninput="checkTriDesign()">
+      </div>
+      <div>
+        <label style="font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:6px;">Computed area =</label>
+        <div id="tResult2" style="padding:10px 14px; background:var(--cream); border:2px solid var(--border); border-radius:10px; font-family:DM Mono,monospace; font-size:16px; color:var(--muted);">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-teal">
+    <div class="card-header">
+      <span class="card-tag tag-teal">🔍 Decompose This</span>
+      <span class="card-title">Complex Shape Challenge</span>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="shape-canvas">
+          <svg viewBox="0 0 220 180" width="220" height="180">
+            <!-- Composite shape: parallelogram + triangle on top -->
+            <polygon points="20,160 50,80 190,80 160,160" fill="#EAF5F5" stroke="#387F84" stroke-width="2"/>
+            <polygon points="50,80 190,80 120,20" fill="#F5EAE7" stroke="#C95E44" stroke-width="2"/>
+            <!-- Dimensions -->
+            <text x="90" y="130" text-anchor="middle" font-size="12" fill="#387F84" font-weight="700" font-family="DM Mono,monospace">b=140</text>
+            <text x="200" y="125" font-size="11" fill="#E8A020" font-weight="700" font-family="DM Mono,monospace">h=80</text>
+            <text x="90" y="65" text-anchor="middle" font-size="11" fill="#C95E44" font-weight="700" font-family="DM Mono,monospace">h=60</text>
+            <!-- Labels -->
+            <text x="90" y="150" text-anchor="middle" font-size="10" fill="#387F84" font-family="DM Sans,sans-serif">Parallelogram</text>
+            <text x="120" y="55" text-anchor="middle" font-size="10" fill="#C95E44" font-family="DM Sans,sans-serif">Triangle</text>
+            <!-- Height line -->
+            <line x1="175" y1="80" x2="175" y2="160" stroke="#E8A020" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <line x1="120" y1="20" x2="120" y2="80" stroke="#C95E44" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <rect x="175" y="151" width="8" height="9" fill="none" stroke="#E8A020" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:14px; color:var(--ink); line-height:1.6; margin-bottom:14px;">This building cross-section is made of a parallelogram (base = 140, height = 80) sitting under a triangle (base = 140, height = 60). <strong>All units in feet.</strong></p>
+        <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">Find the total area of the cross-section. Show your work below.</p>
+        <div class="answer-row">
+          <input type="number" id="compositeAns" class="answer-input" placeholder="Total area" onkeydown="if(event.key==='Enter') checkComposite()">
+          <span class="answer-unit">ft²</span>
+          <button class="check-btn" onclick="checkComposite()">Check ✓</button>
+        </div>
+        <div class="feedback-box" id="fbComposite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-sage">✍️ Justify Your Reasoning (TWR)</span>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <div class="twr-frame">
+        <div class="twr-label">Frame 1 — Explain the Connection</div>
+        <div class="twr-stem" style="margin-bottom:8px;">The triangle formula is half of the parallelogram formula because ________________________. I can prove this by ________________________.</div>
+        <textarea class="twr-input" rows="2" placeholder="Continue your explanation here..."></textarea>
+      </div>
+      <div class="twr-frame">
+        <div class="twr-label">Frame 2 — Apply to Decomposition</div>
+        <div class="twr-stem" style="margin-bottom:8px;">When a complex shape is decomposed into simpler shapes, the total area equals ________________________ because ________________________.</div>
+        <textarea class="twr-input" rows="2" placeholder="Continue your explanation here..."></textarea>
+      </div>
+      <div class="twr-frame">
+        <div class="twr-label">Frame 3 — Compare Formulas</div>
+        <div class="twr-stem" style="margin-bottom:8px;">The rhombus diagonal formula and the parallelogram base-height formula are similar because ________________________, but different because ________________________.</div>
+        <textarea class="twr-input" rows="2" placeholder="Continue your explanation here..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+    <button class="btn-primary" onclick="switchTab(4)">Next: Exit Ticket →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ TAB 4: REFLECT ══════════════════════════════ -->
+<div class="section-panel" id="panel4">
+  <div class="section-header">
+    <div class="section-icon-lg">🎯</div>
+    <div>
+      <div class="section-label">Estación 5 — Reflexionar / Station 5 — Reflect</div>
+      <div class="section-title">Show What You Know</div>
+      <div class="section-subtitle">Complete the exit ticket and rate your confidence. This is the printable section.</div>
+    </div>
+  </div>
+
+  <!-- Progress Tracker -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-teal">📊 Track Your Journey</span>
+    </div>
+    <div class="tracker-grid">
+      <div class="tracker-cell" id="tr0" onclick="toggleTracker(0)">
+        <div class="tracker-icon">🔭</div>
+        <div class="tracker-label">Explore</div>
+      </div>
+      <div class="tracker-cell" id="tr1" onclick="toggleTracker(1)">
+        <div class="tracker-icon">🔬</div>
+        <div class="tracker-label">Discover</div>
+      </div>
+      <div class="tracker-cell" id="tr2" onclick="toggleTracker(2)">
+        <div class="tracker-icon">✏️</div>
+        <div class="tracker-label">Practice</div>
+      </div>
+      <div class="tracker-cell" id="tr3" onclick="toggleTracker(3)">
+        <div class="tracker-icon">⚡</div>
+        <div class="tracker-label">Challenge</div>
+      </div>
+      <div class="tracker-cell" id="tr4" onclick="toggleTracker(4)">
+        <div class="tracker-icon">🎯</div>
+        <div class="tracker-label">Reflect</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Goal Scale -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-ink">🎯 Goal Self-Assessment</span>
+      <span class="card-title">How well can you find areas of these shapes?</span>
+    </div>
+    <div class="goal-scale">
+      <div class="goal-cell" onclick="selectGoal(1)">
+        <div class="goal-num">1</div>
+        <div class="goal-anchor">I need more time. The formulas are new to me.<br><em style="font-size:11px;color:var(--teal);">Necesito más tiempo.</em></div>
+      </div>
+      <div class="goal-cell" onclick="selectGoal(2)">
+        <div class="goal-num">2</div>
+        <div class="goal-anchor">I can do it with hints or by looking at the formulas.<br><em style="font-size:11px;color:var(--teal);">Puedo hacerlo con ayuda.</em></div>
+      </div>
+      <div class="goal-cell" onclick="selectGoal(3)">
+        <div class="goal-num">3</div>
+        <div class="goal-anchor">I can solve most problems on my own.<br><em style="font-size:11px;color:var(--teal);">Puedo resolver solo/a.</em></div>
+      </div>
+      <div class="goal-cell" onclick="selectGoal(4)">
+        <div class="goal-num">4</div>
+        <div class="goal-anchor">I can teach this and use it in new ways.<br><em style="font-size:11px;color:var(--teal);">Puedo enseñarlo y aplicarlo.</em></div>
+      </div>
+    </div>
+    <div class="twr-frame">
+      <div class="twr-label">Reflection TWR</div>
+      <div class="twr-stem" style="margin-bottom:8px;">My goal level is _____ because _____________________________. One thing I still want to practice is _____________________________.</div>
+      <textarea class="twr-input" rows="2" placeholder="Write your reflection here..."></textarea>
+    </div>
+  </div>
+
+  <!-- Exit Ticket -->
+  <div class="exit-ticket">
+    <div class="exit-header">
+      <span style="font-size:24px;">🎯</span>
+      <div>
+        <div class="exit-title">Exit Ticket — Area of Parallelograms, Rhombuses & Triangles</div>
+        <div style="font-size:12px; color:var(--muted);">6.G.A.1 · Neft.Alba · EduWonderLab</div>
+      </div>
+    </div>
+    <div class="exit-fields">
+      <div class="exit-field">
+        <label>Name</label>
+        <input type="text" placeholder="">
+      </div>
+      <div class="exit-field">
+        <label>Period</label>
+        <input type="text" placeholder="">
+      </div>
+      <div class="exit-field">
+        <label>Date</label>
+        <input type="text" placeholder="">
+      </div>
+    </div>
+    <div class="exit-tiers">
+      <div class="exit-tier t1">
+        <div class="tier-label">⭐ Tier 1 — Identify</div>
+        <div class="tier-q">A parallelogram has base = 11 cm and height = 6 cm. Which formula applies, and what is the area?</div>
+        <textarea class="tier-textarea" rows="1" placeholder="Write here..."></textarea>
+        <textarea class="tier-textarea" rows="1" placeholder="Write here..."></textarea>
+      </div>
+      <div class="exit-tier t2">
+        <div class="tier-label">⭐⭐ Tier 2 — Explain</div>
+        <div class="tier-q">A triangle and a parallelogram share the same base and height. Explain why the triangle's area is exactly half the parallelogram's area. Use a TWR sentence to justify.</div>
+        <textarea class="tier-textarea" rows="1" placeholder="Write here..."></textarea>
+        <textarea class="tier-textarea" rows="1" placeholder="Write here..."></textarea>
+        <textarea class="tier-textarea" rows="1" placeholder="Write here..."></textarea>
+        <div style="margin-top:8px;">
+          <div class="twr-frame" style="padding:12px 14px;">
+            <div class="twr-label">TWR Stem</div>
+            <div class="twr-stem">The triangle formula includes ÷ 2 because <input type="text" class="twr-blank-input twr-wide" placeholder="type here">, which is similar to <input type="text" class="twr-blank-input twr-wide" placeholder="type here">.</div>
+          </div>
+        </div>
+      </div>
+      <div class="exit-tier t3">
+        <div class="tier-label">⭐⭐⭐ Tier 3 — Transfer</div>
+        <div class="tier-q">A rhombus has an area of 84 in². One diagonal measures 14 in. Find the other diagonal. Then explain: could a triangle with the same diagonals as lengths have the same area? Why or why not?</div>
+        <textarea class="tier-textarea" rows="1" placeholder="Write here..."></textarea>
+        <textarea class="tier-textarea" rows="1" placeholder="Write here..."></textarea>
+        <textarea class="tier-textarea" rows="1" placeholder="Write here..."></textarea>
+        <textarea class="tier-textarea" rows="1" placeholder="Write here..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+    <button class="btn-primary" onclick="openPdfModal()">📄 Save as PDF</button>
+    <button class="btn-secondary" onclick="resetAll()">↺ Start Over</button>
+    <span style="font-size:12px; color:var(--muted);">Captures your answers, TWR responses &amp; score</span>
+  </div>
+
+  <!-- Product Footer -->
+  <div style="margin-top:40px; padding:20px; background:var(--ink); border-radius:14px; color:white; font-size:12px; line-height:1.6;">
+    <div style="font-family:'Playfair Display',serif; font-size:16px; font-weight:700; color:var(--amber); margin-bottom:8px;">EduWonderLab — Area Unlocked HyperDoc</div>
+    <div style="color:rgba(255,255,255,0.6);">Grade 6 · CCSS 6.G.A.1 · Interactive Digital Activity · Neft.Alba</div>
+    <div style="margin-top:8px; color:rgba(255,255,255,0.4);">For classroom use only. Not for redistribution. © EduWonderLab</div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ─── SHAPE INFO DATA ───
+const shapeData = [
+  {
+    name: "Parallelogram",
+    color: "#387F84",
+    facts: [
+      "Opposite sides are parallel AND equal in length",
+      "Height (h) is the perpendicular distance between the two parallel bases — NOT the slant side",
+      "A rectangle is a special parallelogram (all angles = 90°)",
+      "Formula: A = b × h"
+    ],
+    warning: "⚠️ Common Error: Students often multiply base × slant side. Only the perpendicular height counts!"
+  },
+  {
+    name: "Rhombus",
+    color: "#E8A020",
+    facts: [
+      "All four sides are equal in length",
+      "Diagonals bisect each other at 90° (right angles)",
+      "A square is a special rhombus (all angles = 90°)",
+      "Formula: A = (d₁ × d₂) ÷ 2 — using both diagonals"
+    ],
+    warning: "⚠️ Common Error: Students forget to divide by 2. The rhombus is half of the rectangle formed by its diagonals."
+  },
+  {
+    name: "Triangle",
+    color: "#C95E44",
+    facts: [
+      "Three sides, three angles, sum of angles = 180°",
+      "Height is always perpendicular to the base (may be outside the triangle for obtuse triangles!)",
+      "Every triangle = half of a parallelogram with the same base and height",
+      "Formula: A = (b × h) ÷ 2"
+    ],
+    warning: "⚠️ Common Error: For obtuse triangles, the height falls outside the shape — but the formula still works!"
+  }
+];
+
+function selectShape(i) {
+  document.querySelectorAll('.shape-card').forEach((c,j) => c.classList.toggle('selected', j===i));
+  const d = shapeData[i];
+  const info = document.getElementById('shapeInfo');
+  info.style.display = 'block';
+  info.innerHTML = `
+    <div style="border-left:4px solid ${d.color}; padding-left:16px;">
+      <div style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:${d.color}; margin-bottom:12px;">${d.name}</div>
+      ${d.facts.map(f => `<div class="info-row"><span class="info-dot" style="color:${d.color}">◆</span><span style="font-size:14px;">${f}</span></div>`).join('')}
+      <div style="background:rgba(232,160,32,0.1); border:1px solid #E8A020; border-radius:8px; padding:10px 14px; margin-top:12px; font-size:13px; color:var(--ink);">${d.warning}</div>
+    </div>`;
+}
+
+// ─── INTERACTIVE SLIDERS ───
+function updateParallelogram() {
+  const b = +document.getElementById('pBaseSlider').value;
+  const h = +document.getElementById('pHeightSlider').value;
+  document.getElementById('pBase').textContent = b;
+  document.getElementById('pHeight').textContent = h;
+  document.getElementById('pArea').textContent = b * h;
+  drawParallelogram(b, h);
+}
+
+function drawParallelogram(b, h) {
+  const svg = document.getElementById('parSvg');
+  const scale = Math.min(180/b, 120/h, 14);
+  const w = b * scale, ht = h * scale;
+  const slant = 25, cx = 110, cy = 120;
+  const x1 = cx - w/2 + slant, y1 = cy - ht;
+  const x2 = cx + w/2 + slant, y2 = cy - ht;
+  const x3 = cx + w/2, y3 = cy;
+  const x4 = cx - w/2, y4 = cy;
+  svg.innerHTML = `
+    <polygon points="${x1},${y1} ${x2},${y2} ${x3},${y3} ${x4},${y4}" fill="#EAF5F5" stroke="#387F84" stroke-width="2"/>
+    <line x1="${x1}" y1="${y1}" x2="${x1}" y2="${y3}" stroke="#E8A020" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <rect x="${x1}" y="${y3-8}" width="8" height="8" fill="none" stroke="#E8A020" stroke-width="1.5"/>
+    <text x="${x1+4}" y="${(y1+y3)/2}" font-size="11" fill="#E8A020" font-weight="700" font-family="DM Mono,monospace">h=${h}</text>
+    <text x="${(x3+x4)/2}" y="${y3+14}" text-anchor="middle" font-size="11" fill="#387F84" font-weight="700" font-family="DM Mono,monospace">b=${b}</text>`;
+}
+
+function updateRhombus() {
+  const d1 = +document.getElementById('rd1Slider').value;
+  const d2 = +document.getElementById('rd2Slider').value;
+  document.getElementById('rd1').textContent = d1;
+  document.getElementById('rd2').textContent = d2;
+  document.getElementById('rArea').textContent = (d1 * d2 / 2).toFixed(1).replace('.0','');
+  drawRhombus(d1, d2);
+}
+
+function drawRhombus(d1, d2) {
+  const svg = document.getElementById('rhomSvg');
+  const scale = Math.min(180/d1, 120/d2, 10);
+  const w = d1 * scale / 2, h = d2 * scale / 2;
+  const cx = 110, cy = 75;
+  svg.innerHTML = `
+    <rect x="${cx-w}" y="${cy-h}" width="${w*2}" height="${h*2}" fill="rgba(232,160,32,0.08)" stroke="#E8A020" stroke-width="1" stroke-dasharray="4,3"/>
+    <polygon points="${cx},${cy-h} ${cx+w},${cy} ${cx},${cy+h} ${cx-w},${cy}" fill="#FEF6E4" stroke="#E8A020" stroke-width="2.5"/>
+    <line x1="${cx-w}" y1="${cy}" x2="${cx+w}" y2="${cy}" stroke="#387F84" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line x1="${cx}" y1="${cy-h}" x2="${cx}" y2="${cy+h}" stroke="#C95E44" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="${cx+6}" y="${cy-6}" font-size="11" fill="#387F84" font-weight="700" font-family="DM Mono,monospace">d₁=${d1}</text>
+    <text x="${cx+6}" y="${cy+h-4}" font-size="11" fill="#C95E44" font-weight="700" font-family="DM Mono,monospace">d₂=${d2}</text>`;
+}
+
+function updateTriangle() {
+  const b = +document.getElementById('tBaseSlider').value;
+  const h = +document.getElementById('tHeightSlider').value;
+  document.getElementById('tBase').textContent = b;
+  document.getElementById('tHeight').textContent = h;
+  document.getElementById('tArea').textContent = (b * h / 2).toFixed(1).replace('.0','');
+  drawTriangle(b, h);
+}
+
+function drawTriangle(b, h) {
+  const svg = document.getElementById('triSvg');
+  const scale = Math.min(180/b, 120/h, 11);
+  const w = b * scale, ht = h * scale;
+  const cx = 110, cy = 130;
+  const x1 = cx - w/2, y1 = cy;
+  const x2 = cx + w/2, y2 = cy;
+  const x3 = cx, y3 = cy - ht;
+  svg.innerHTML = `
+    <polygon points="${x1},${y1} ${x2},${y2} ${x3},${y3}" fill="#F5EAE7" stroke="#C95E44" stroke-width="2.5"/>
+    <line x1="${x3}" y1="${y3}" x2="${x3}" y2="${y1}" stroke="#E8A020" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <rect x="${x3}" y="${y1-8}" width="8" height="8" fill="none" stroke="#E8A020" stroke-width="1.5"/>
+    <text x="${x3+5}" y="${(y3+y1)/2}" font-size="11" fill="#E8A020" font-weight="700" font-family="DM Mono,monospace">h=${h}</text>
+    <text x="${cx}" y="${y1+14}" text-anchor="middle" font-size="11" fill="#C95E44" font-weight="700" font-family="DM Mono,monospace">b=${b}</text>`;
+}
+
+// Init sliders
+updateParallelogram();
+updateRhombus();
+updateTriangle();
+
+// ─── ANSWER CHECKING ───
+const answers = {
+  1: 126, 2: 80, 3: 99, 4: 97.5,
+  5: 8, 6: 77.76, 7: 13, 8: 52,
+  9: 2, 10: 20, 11: 12, 12: 210
+};
+
+const feedback = {
+  1: { c: "✓ Correct! A = 14 × 9 = 126 cm²", w: "Not quite. Formula: A = b × h = 14 × 9. Multiply them!" },
+  2: { c: "✓ Correct! A = (16 × 10) ÷ 2 = 80 m²", w: "Remember: Rhombus formula is A = (d₁ × d₂) ÷ 2. Multiply then halve." },
+  3: { c: "✓ Correct! A = (18 × 11) ÷ 2 = 99 ft²", w: "Triangle formula: A = (b × h) ÷ 2. Multiply 18 × 11 = 198, then divide by 2." },
+  4: { c: "✓ Correct! A = 13 × 7.5 = 97.5 cm². You didn't fall for the slant side trap!", w: "Don't use the slant side (10 cm)! Only use base (13) × perpendicular height (7.5)." },
+  5: { c: "✓ Correct! h = 8 in. Work: 48 = (12 × h) ÷ 2 → 96 = 12h → h = 8", w: "Work backwards: 48 = (12 × h) ÷ 2 → 96 = 12 × h → h = 96 ÷ 12." },
+  6: { c: "✓ Correct! Area = (2.4 × 3.6) ÷ 2 = 4.32 ft². Cost = 4.32 × $18 = $77.76", w: "Step 1: Area = (2.4 × 3.6) ÷ 2 = 4.32 ft². Step 2: 4.32 × 18 = $77.76." },
+  7: { c: "✓ Correct! b = 91 ÷ 7 = 13 m", w: "Work backwards: A = b × h → 91 = b × 7 → b = 91 ÷ 7." },
+  8: { c: "✓ Correct! Roof area = 78 m², ⅔ of 78 = 52 m²", w: "Step 1: Triangle area = (24 × 6.5) ÷ 2 = 78 m². Step 2: ⅔ × 78 = 52 m²." },
+  9: { c: "✓ Correct! 2 triangles. Parallelogram = 80, Triangle = 40. 80 ÷ 40 = 2.", w: "Parallelogram area = 80 cm². Triangle area = 40 cm². How many 40s make 80?" },
+  10: { c: "✓ Correct! Area = (8 × 5) ÷ 2 = 20. Marcus forgot to divide by 2.", w: "Triangle = (b × h) ÷ 2 = (8 × 5) ÷ 2 = 20. Marcus used parallelogram formula." },
+  11: { c: "✓ Correct! Rectangle = 72 cm². (12 × d₂) ÷ 2 = 72 → 12 × d₂ = 144 → d₂ = 12 cm.", w: "Rectangle area = 72 cm². Set: (12 × d₂) ÷ 2 = 72, solve for d₂." },
+  12: { c: "✓ Correct! Area = 60 ft². 60 tiles × $3.50 = $210.", w: "Triangle area = (15 × 8) ÷ 2 = 60 ft². 60 tiles (can't cut!) × $3.50 = $210." }
+};
+
+let correct = 0;
+const answered = {};
+
+function checkAnswer(n) {
+  if (answered[n]) return;
+  const val = parseFloat(document.getElementById('a'+n).value);
+  const expected = answers[n];
+  const isRight = Math.abs(val - expected) < 0.1;
+  const card = document.getElementById('p'+n);
+  const input = document.getElementById('a'+n);
+  const fb = document.getElementById('fb'+n);
+  fb.className = 'feedback-box show ' + (isRight ? 'correct' : 'wrong');
+  fb.innerHTML = `<span class="feedback-icon">${isRight ? '✅' : '❌'}</span><span>${feedback[n][isRight ? 'c' : 'w']}</span>`;
+  input.classList.add(isRight ? 'correct' : 'wrong');
+  if (isRight) {
+    card.classList.add('correct');
+    answered[n] = true;
+    correct++;
+    updateScore();
+    if (Math.random() < 0.5) launchConfetti();
+  } else {
+    card.classList.add('wrong');
+    setTimeout(() => { card.classList.remove('wrong'); input.classList.remove('wrong'); }, 2000);
+  }
+}
+
+function updateScore() {
+  const total = Object.keys(answers).length;
+  document.getElementById('scoreCorrect').textContent = correct;
+  document.getElementById('scorePct').textContent = Math.round(correct/total*100) + '%';
+  updateProgressBar();
+}
+
+function toggleHint(n) {
+  const h = document.getElementById('hint'+n);
+  h.classList.toggle('show');
+}
+
+// ─── COMPOSITE ───
+function checkComposite() {
+  const val = parseFloat(document.getElementById('compositeAns').value);
+  const fb = document.getElementById('fbComposite');
+  // Para: 140×80 = 11200; Triangle: (140×60)/2 = 4200; Total = 15400
+  const isRight = Math.abs(val - 15400) < 1;
+  fb.className = 'feedback-box show ' + (isRight ? 'correct' : 'wrong');
+  fb.innerHTML = `<span class="feedback-icon">${isRight ? '✅' : '❌'}</span><span>${isRight 
+    ? '✓ Correct! Parallelogram: 140×80 = 11,200 ft². Triangle: (140×60)÷2 = 4,200 ft². Total: 15,400 ft²' 
+    : 'Check each part. Parallelogram: A = 140 × 80. Triangle: A = (140 × 60) ÷ 2. Add them!'}</span>`;
+}
+
+// ─── DESIGN CHECK ───
+function checkDesign() {
+  const b = parseFloat(document.getElementById('dBase').value);
+  const h = parseFloat(document.getElementById('dHeight').value);
+  const result = document.getElementById('dResult');
+  if (!isNaN(b) && !isNaN(h) && b > 0 && h > 0) {
+    const area = b * h;
+    const match = Math.abs(area - 60) < 0.01;
+    result.style.color = match ? 'var(--correct)' : (area > 60 ? 'var(--wrong)' : 'var(--muted)');
+    result.textContent = `${b} × ${h} = ${area} ft² ${match ? '✓ MATCH!' : ''}`;
+  }
+}
+
+function checkTriDesign() {
+  const b = parseFloat(document.getElementById('tBase2').value);
+  const h = parseFloat(document.getElementById('tHeight2').value);
+  const result = document.getElementById('tResult2');
+  if (!isNaN(b) && !isNaN(h) && b > 0 && h > 0) {
+    const area = b * h / 2;
+    const match = Math.abs(area - 60) < 0.01;
+    result.style.color = match ? 'var(--correct)' : (area > 60 ? 'var(--wrong)' : 'var(--muted)');
+    result.textContent = `(${b}×${h})÷2 = ${area} ft² ${match ? '✓ MATCH!' : ''}`;
+  }
+}
+
+// ─── TABS ───
+let currentTab = 0;
+function switchTab(i) {
+  document.querySelectorAll('.section-panel').forEach((p,j) => p.classList.toggle('active', j===i));
+  document.querySelectorAll('.tab-btn').forEach((b,j) => b.classList.toggle('active', j===i));
+  currentTab = i;
+  updateProgressBar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgressBar() {
+  const tabProgress = (currentTab + 1) / 5 * 60;
+  const solvedProgress = correct / 12 * 40;
+  document.getElementById('progressBar').style.width = Math.round(tabProgress + solvedProgress) + '%';
+}
+
+// ─── TRACKER ───
+function toggleTracker(i) {
+  document.getElementById('tr'+i).classList.toggle('done');
+}
+
+// ─── GOAL SCALE ───
+function selectGoal(n) {
+  document.querySelectorAll('.goal-cell').forEach((c,i) => c.classList.toggle('selected', i === n-1));
+}
+
+// ─── CONFETTI ───
+function launchConfetti() {
+  const colors = ['#387F84','#E8A020','#C95E44','#1C2E42','#5A7A5E'];
+  for (let i = 0; i < 18; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.cssText = `
+      left: ${Math.random()*100}vw;
+      top: -20px;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      width: ${6+Math.random()*8}px;
+      height: ${6+Math.random()*8}px;
+      animation-duration: ${1.5+Math.random()*1.5}s;
+      animation-delay: ${Math.random()*0.5}s;
+      border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+    `;
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 3500);
+  }
+}
+
+
+// ─── PDF SAVE SYSTEM ───
+
+const problemTypes = {
+  1:'Parallelogram', 2:'Rhombus', 3:'Triangle', 4:'Parallelogram (trap)',
+  5:'Missing dimension', 6:'Real world', 7:'Missing dimension', 8:'Composite',
+  9:'Compare & contrast', 10:'Error analysis', 11:'Transfer', 12:'Open-ended'
+};
+const correctAnswers = {
+  1:126, 2:80, 3:99, 4:97.5, 5:8, 6:77.76, 7:13, 8:52, 9:2, 10:20, 11:12, 12:210
+};
+
+function openPdfModal() {
+  document.getElementById('pdfModal').classList.add('open');
+  // Pre-fill from exit ticket fields if filled
+  const exitName = document.querySelector('.exit-field input[placeholder=""]');
+  const modalName = document.getElementById('pdf-name');
+  if (exitName && exitName.value && !modalName.value) modalName.value = exitName.value;
+}
+
+function closePdfModal() {
+  document.getElementById('pdfModal').classList.remove('open');
+}
+
+function executePdfSave() {
+  const name = document.getElementById('pdf-name').value;
+  const period = document.getElementById('pdf-period').value;
+  const date = document.getElementById('pdf-date').value;
+  const teacher = document.getElementById('pdf-teacher').value;
+
+  const inclSummary = document.getElementById('opt-summary').checked;
+  const inclFormulas = document.getElementById('opt-formulas').checked;
+  const inclPractice = document.getElementById('opt-practice').checked;
+  const inclTwr = document.getElementById('opt-twr').checked;
+  const inclExit = document.getElementById('opt-exit').checked;
+
+  // ── Build score summary ──
+  const total = 12;
+  const pct = Math.round(correct/total*100);
+  document.getElementById('pdf-score-big').textContent = pct + '%';
+  document.getElementById('pdf-name-out').textContent = name;
+  document.getElementById('pdf-period-out').textContent = period;
+  document.getElementById('pdf-date-out').textContent = date;
+  document.getElementById('pdf-teacher-out').textContent = teacher;
+
+  // Build results table
+  const tbody = document.getElementById('pdf-results-body');
+  tbody.innerHTML = '';
+  for (let n = 1; n <= 12; n++) {
+    const inputEl = document.getElementById('a' + n);
+    const userVal = inputEl ? inputEl.value : '—';
+    const isCorrect = answered[n];
+    const bgColor = isCorrect ? '#f0f8f3' : (userVal && userVal !== '' ? '#fdf0ed' : '#fafafa');
+    const resultIcon = isCorrect ? '✅' : (userVal && userVal !== '' ? '❌' : '—');
+    const correctVal = correctAnswers[n];
+    tbody.innerHTML += `<tr style="background:${bgColor};border-bottom:1px solid #e0e0e0;">
+      <td style="padding:6px 10px;font-family:'DM Mono',monospace;font-weight:600;">${n}</td>
+      <td style="padding:6px 10px;">${problemTypes[n]}</td>
+      <td style="padding:6px 10px;font-family:'DM Mono',monospace;">${userVal || '—'}</td>
+      <td style="padding:6px 10px;font-family:'DM Mono',monospace;color:#387F84;font-weight:600;">${correctVal}</td>
+      <td style="padding:6px 10px;text-align:center;font-size:15px;">${resultIcon}</td>
+    </tr>`;
+  }
+
+  // ── Show/hide sections ──
+  const summary = document.getElementById('pdf-summary');
+  summary.style.display = inclSummary ? 'block' : 'none';
+
+  // Mark panels for inclusion
+  document.getElementById('panel1').setAttribute('data-pdf', inclFormulas ? '1' : '0');
+  document.getElementById('panel2').setAttribute('data-pdf', inclPractice ? '1' : '0');
+  document.getElementById('panel3').setAttribute('data-pdf', inclTwr ? '1' : '0');
+  document.getElementById('panel4').setAttribute('data-pdf', inclExit ? '1' : '0');
+
+  // ── Expand all panels & add print classes ──
+  document.querySelectorAll('.section-panel').forEach(p => {
+    const include = p.getAttribute('data-pdf') !== '0';
+    if (include) {
+      p.classList.add('active');
+      p.style.display = 'block';
+    } else {
+      p.style.display = 'none';
+    }
+  });
+  // Always hide panel0 (Explore/intro) from PDF unless it has data-pdf=1
+  // Panel0 = explore — hide by default to keep PDF tight
+  document.getElementById('panel0').style.display = 'none';
+
+  // Show all hints that have been viewed (already .show)
+  // Fill exit ticket fields from modal
+  document.querySelectorAll('.exit-field input').forEach((el, i) => {
+    const vals = [name, period, date];
+    if (!el.value && vals[i]) el.value = vals[i];
+  });
+
+  closePdfModal();
+
+  // Small delay so DOM settles, then print
+  setTimeout(() => {
+    window.print();
+    // Restore after print dialog closes
+    setTimeout(restoreAfterPrint, 1500);
+  }, 200);
+}
+
+function restoreAfterPrint() {
+  // Hide summary block
+  document.getElementById('pdf-summary').style.display = 'none';
+  // Restore only current tab visible
+  document.querySelectorAll('.section-panel').forEach((p, i) => {
+    p.style.display = '';
+    p.classList.toggle('active', i === currentTab);
+    p.removeAttribute('data-pdf');
+  });
+}
+
+// Close modal on overlay click
+document.getElementById('pdfModal').addEventListener('click', function(e) {
+  if (e.target === this) closePdfModal();
+});
+
+// ─── RESET ───
+function resetAll() {
+  if (!confirm('Reset all progress?')) return;
+  location.reload();
+}
+
+
+// ─── AUTO-EXPAND TIER TEXTAREAS ───
+document.querySelectorAll('.tier-textarea').forEach(ta => {
+  ta.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = this.scrollHeight + 'px';
+  });
+});
+
+// Init
+updateProgressBar();
+</script>
+</body>
+</html>
